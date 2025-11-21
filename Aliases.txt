@@ -1,0 +1,110 @@
+; Edited for FyreChat
+;
+; There are four commands that the Aliases plugin provides:
+; /rla - reload aliases. (Reloads this file)
+; /la - list aliases. (Aliases marked with * have AwayReset set to 0, see below)
+; /ea - edit aliases. (Opens Aliases.txt)
+; /sc - show commands. (Use with parameter on/off, or no parameter to toggle)
+; Commands shown with a yellow * have AwayReset set to 0, see below.
+; If BinaryChat Plugin API revision 3 is present, the /sc setting is saved to the registry.
+; The above commands never reset the away idle.
+
+; Format for aliases:
+; Alias|Cmd|AwayReset
+; Alias: "Short" command. (No slash)
+; Cmd: "Long" command.
+; AwayReset: Boolean (0 or 1) specifying whether the away idle time should be reset
+; after the command is processed. (0 false, 1 true)
+; This is ignored for BinaryChat Plugin API versions lower than 3.
+; If this is omitted, the default is 1.
+
+i|/whoami|1	; Alias /i, real command /whoami, resets away idle
+ca|/whoami|0	; Alias /ca, real command /whoami, doesn't reset away idle (ca = check away)
+s|/whois|1
+
+r|/reply|1
+tell|/whisper|1
+
+t|/time|0
+u|/users|0
+
+j|/join|1
+rj|/rejoin|1
+rj2|/rejoin2|0
+
+rcn|/reconnect|1
+
+st|/stats|0
+
+x|/squelch|1
+ux|/unsquelch|1
+
+sL|/join Op Forge|1
+xL|/join Op Exile|1
+RC|/join Op RoyalCouncil|1
+vL|/join Op [vL]|1
+FC|/join Op FyreChat|1
+Elite|/join Op Elite|1
+DSF|/join Diablo DSF-1|1
+OTS|/join Open Tech Support|1
+BTS|/join Blizzard Tech Support|1
+
+wsL|/who Op Forge|1
+wFC|/who Op FyreChat|0
+wxL|/who Op Exile|1
+wvL|/who Op [vL]|1
+wRC|/who Op RoyalCouncil|1
+wElite|/who Op Elite|1
+wDSF|/who Diablo DSF-1|1
+wOTS|/who Open Tech Support|1
+wBTS|/who Blizzard Tech Support|1
+
+star|/setproduct STAR|0
+sshr|/setproduct SSHR|0
+jstr|/setproduct JSTR|0
+sexp|/setproduct SEXP|0
+drtl|/setproduct DRTL|0
+dshr|/setproduct DSHR|0
+d2dv|/setproduct D2DV|0
+d2xp|/setproduct D2XP|0
+w2bn|/setproduct W2BN|0
+war3|/setproduct WAR3|0
+w3xp|/setproduct W3XP|0
+
+user|/setusername|0
+pass|/setpassword|0
+serv|/setserver|0
+home|/sethome|0
+char|/setcharactername|0
+
+mcp|/realmconnect|1
+
+dm|/encrypt|1
+h|/hex|1
+n|/reverse|1
+
+ver|/version|0
+
+cq|/clearqueue|0
+cs|/clearscreen|0
+
+lsp|/listplugins|0
+lp|/loadplugin|0
+up|/unloadplugin|0
+
+sup|The logical complement of down|1
+over|You'll get over it|1
+hover|He'll get over it|1
+sover|She'll get over it|1
+sayso|If you say so|1
+poke|/me pokes|1
+yawn|/me yawns.|1
+shrug|/me shrugs.|1
+sigh|/me sighs.|1
+ponder|/me ponders.|1
+
+rd|/recorddata|0
+
+; Aliases for Plugins
+chat|/chatfocus|0
+netstats|/networkstats|0

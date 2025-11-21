@@ -1,0 +1,24 @@
+set setuser
+set setattr
+set adduser
+set addattr
+set add
+set setpriv
+
+del deluser
+del rem
+
+designate op
+
+checkdesignate cd
+
+say echo
+
+version ver
+version about
+
+ban b
+kick k
+unban u
+
+find listpriv

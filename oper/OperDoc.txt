@@ -1,0 +1,252 @@
+--------------------------------------------------------------------------------------------
+Oper Guide - authored by Spht
+--------------------------------------------------------------------------------------------
+Oper Copyright (C) 2004 Spht - a Valhalla's Legends production <www.valhallalegends.com>
+
+--------------------------------------------------------------------------------------------
+Installation
+--------------------------------------------------------------------------------------------
+To load the plugin, start the bot and type /loadplugin oper.dll (if it is in your bot 
+directory).  It is .dll instead of .bcp so it doesn't load unwantedly.
+
+You can rename oper.dll to oper.bcp if you want it to be loaded automatically on startup.
+Note this is a bad idea if you have multiple profiles installed on the hosting client.  If 
+you do, I suggest configuring the other profiles to not load the plugin.  That is, if the 
+client supports doing that.  SphtBotv3 does -- see "Ignore Plugin Mask" in change log.
+
+The first time you load the plugin, it will create an Oper directory in the plugin's path.
+You will need to create a users.txt and (optionally) an oper.cfg in this directory.  See 
+below for their usage and format.
+
+IMPORTANT:  If you loaded the plugin after logging on, you will need to rejoin the channel 
+so it knows what account and what game it's on, and other required information.  If you 
+don't do this, some functions will not operate.
+
+WARNING:  I recommend NOT using the bot on Diablo II.  It current does not handle the 
+mangled starred names.
+
+--------------------------------------------------------------------------------------------
+Attribute	| Functions
+--------------------------------------------------------------------------------------------
+A		| set <mask> [operation +/-]<flag or flags>, del <mask>, find <entry>, 
+findex <entry>, findname <mask>, findattr <flag or flags>
+
+B		| (Autobanned, overrides F)
+
+C		| reconnect
+
+D		| designate [user], rejoin
+
+F		| (Not banned by protect)
+
+I		| (Ignored)
+
+J		| join <channel>
+
+L		| find <entry>, findex <entry>, findname <mask>, findattr <flag or flags>
+
+M		| say <text>
+
+N		| set <mask> [operation +/-]<flag or flags>, del <mask>, find <entry>, 
+findex <entry>, findname <mask>, findattr <flag or flags>, reload
+
+O		| ban <usermask> [reason], kick <usermask> [reason], banf <usermask> 
+[reason], kickf <usermask> [reason], zap <usermask> [reason], fkick <usermask> [reason], 
+unban <usermask>, checkdesignate, clearqueue, trigger, version, uptime, protect (on/off), 
+protectsafe (on/off), leaveban (on/off), leetprotect (on/off), svb (on/off), frjb (on/off), 
+svbf (on/off), svbt (time), frjbf (on/off), frjbt (time), ci (on/off), cit (time)
+
+Q		| quit
+
+S		| (Cannot be banned/kicked, overrides B)
+
+Z		| (Autobanned, overrides S)
+
+--------------------------------------------------------------------------------------------
+Commands and their descriptions
+--------------------------------------------------------------------------------------------
+The bot has many different built in commands.  Commands must be prefixed with a trigger (a 
+dot by default) if spoken outloud, but if whispered, just the command name should be given.
+
+set <mask> [operation +/-]<flag or flags> - Setuser controls all database manipulation, 
+including creating new entries, deleting entries, setting new flags for an entry, and 
+removing certain flags from an entry.  If the operation is omitted, and the user that 
+issued the command does not have attribute N, then the operation defaults to add flags (+).
+Furthermore, a user without attribute N can only add/remove flags B, F, L, and S.  If a 
+user with N omits the operation, the bot clears all existing flags from an entry, and sets 
+the specified flags.  Be *CAREFUL* with this behavior!  If the operation is set to +, the 
+bot adds the specified flags to the entry, creating it if necessary.  Otherwise, if the 
+operation is -, then the bot removes the specified flags from the entry.  If all of an 
+entries flags are removed from this matter, it is removed from the database.
+
+del <mask> - Removes an entry from the database.  If the user that issued the command does 
+not have attribute N, only entries with flags B, F, L, and/or S can be removed.
+
+find <entry> - Finds all flags that can apply to a user, even if they are not in the 
+database.  A list of total flags, and the entries that comprise them, is returned.
+
+findex <entry> - Finds flags that apply to a user.
+
+findname <mask> - Finds and lists all names which match the specified usermask.
+
+findattr <flag or flags> - Returns a list of all entries with the specified flags, and 
+their total flags.
+
+reload - Reloads the bot configuration and database.
+
+reconnect - Reconnects the bot to the current server.
+
+designate - The bot designates you.
+
+designate <user> - The bot designates a specific user.
+
+rejoin - The bot rejoins the channel.
+
+join <channel> - Joins a specific channel.
+
+say <text> - says <text> outloud.  To whisper a say command, you must have attribute A.  To 
+use /commands, you must have attribute N.
+
+ban <usermask> <reason> - Bans either a single user or all users in the channel matching a 
+wildcard mask.  You cannot use , or " in a ban or kick command.  If the user to be banned 
+is safelisted, an error message will be whispered back to you.
+
+kick <usermask> <reason> - Same as ban, except kicks the user.
+
+banf <usermask> <reason> - Same as ban, except favors friends as well as safelisted users.
+
+kickf <usermask> <reason> - Same as banf, except kicks the user.
+
+zap <usermask> <reason> - Bans the usermask regardless of flags.  Works like the ban 
+command unless you have attribute N.
+
+fkick <usermask> <reason> - Same as zap, except kicks the user.
+
+unban <usermask> - The bot unbans either a specific user, or unbans all users banned in the 
+last 24 hours which match for a wildcard mask.
+
+protect on - Enables channel protection, bans all unprotected users in the channel, and 
+bans unprotected users joining the channel.
+
+protect off - Disables channel protection.  Note you must wait 90 seconds between toggling 
+channel protection on and off.  This is to prevent users from toggling it simultaneously in 
+disagreement.
+
+protectsafe on - Same as protect on, except bans friends as well.
+
+protectsafe off - Disables heightened protection.
+
+leaveban on - Enables leave ban and bans all unprotected users leaving the channel.
+
+leaveban off - Disables leave ban.
+
+leetprotect on - Enables elite ban and bans all unprotected users with dominating 
+non-alphanumeric characters in their name.
+
+leetprotect off - Disables elite ban.
+
+svb on - Enables short visit protection and bans unprotected users leaving the channel that 
+have been there for a short period of time.
+
+svb off - Disables short visit protection.
+
+svbf on - Enables short visit protection exemption for +F.
+
+svbf off - Disables short visit protection exemption for +F.
+
+svbt (time in milliseconds) - Sets the amount of time which defines a short visit.
+
+frjb on - Enables fast rejoin protection and bans unprotected users joining the channel 
+that have left very recently.
+
+frjb off - Disables fast rejoin protection.
+
+frjbf on - Enables fast rejoin protection exemption for +F.
+
+frjbf off - Disables fast rejoin protection exemption for +F.
+
+frjbt (time in milliseconds) - Sets the amount of time which defines a fast rejoin.
+
+ci on - Enables kicking of unknown users that idle while the channel is active.
+
+ci off - Disables idle kick.
+
+cit (time in milliseconds) - Sets the amount of time that an unknown user can idle in the 
+channel.
+
+checkdesignate - The bot tells you what user is designated.
+
+clearqueue - Clears the queue of all messages.
+
+version - Displays the bot version and build date.
+
+uptime - Displays the bot and system uptimes.
+
+quit - Shuts down the current botthread.
+
+--------------------------------------------------------------------------------------------
+Config value					| Description
+--------------------------------------------------------------------------------------------
+trigger=					| Sets the bot's trigger.
+
+protect=					| Sets the default state of channel 
+protection.  Boolean (0 or 1).
+
+protectsafe=					| Sets the default state of heightened 
+protection.  Boolean (0 or 1).
+
+leaveban=					| Sets the default state of leave ban.
+Boolean (0 or 1).
+
+leetprotect=					| Sets the default state of elite ban.
+Boolean (0 or 1).
+
+svb=						| Sets the default state of short visit 
+protection.  Boolean (0 or 1).
+
+svbf=						| Sets the default state of short visit 
+protection exemption for +F.  Boolean (0 or 1).
+
+svbt=						| Sets the default time for short visit 
+protection.  Time in milliseconds.
+
+frjb=						| Sets the default state of fast rejoin 
+protection.  Boolean (0 or 1).
+
+frjbf=						| Sets the default state of fast rejoin
+protection exemption for +F.  Boolean (0 or 1).
+
+frjbt=						| Sets the default time for fast rejoin 
+protection.  Time in milliseconds.
+
+ci=						| Sets the default state of idle kick.
+Boolean (0 or 1).
+
+cit=						| Sets the default time for idle kick.
+Time in milliseconds.
+
+--------------------------------------------------------------------------------------------
+Database format
+--------------------------------------------------------------------------------------------
+users.txt should be saved as a plain text file.  Format is:
+entry FLAGS
+Where entry is the lowercase-only name of the entry, and FLAGS are the uppercase physical 
+flag values for the entry.
+
+--------------------------------------------------------------------------------------------
+Aliases format
+--------------------------------------------------------------------------------------------
+Aliases.txt should be saved as a plain text file.  Format is:
+OriginalCommand CommandAlias
+
+--------------------------------------------------------------------------------------------
+Oper files
+--------------------------------------------------------------------------------------------
+Files used by Oper are stored in an Oper sub-directory of the plugin path.
+
+* oper.dll - The bot program itself.
+* oper.cfg - The bot's configuration settings.
+* users.txt - The bot's user database.
+* Aliases.txt - The bot's command aliases.
+* security.log - Log of all changes to the user database.
+* OperDoc.txt - This file.
