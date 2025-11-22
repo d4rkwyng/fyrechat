@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>About Plugins</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+    <STYLE TYPE="text/css">
+    <!--
+    BODY
+       {
+       font-family:Verdana;
+       font-size:2;
+       }
+    -->
+    </STYLE>
+</head>
+<body text="#000000" bgColor="#ffffff">
+<h1>FyreChat Plugins</h1>
+To manually load a plugin, type <b>/loadplugin path/pluginname.bcp</b>
+(Example: /loadplugin plugins/disabled/oper.dll)<br>
+Or move the plugin into the plugins folder for auto-loading.<br>
+<br>
+In order to use plugins you will need
+<a href="http://fyrechat.openfyre.net/required/vc7_crt.zip">Visual C++ 7 Runtimes</a> (included in Required Files).<br>
+<br>
+<i>The following plugins have been tested with FyreChat v2.1.0 and higher.</i>
+<ul>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/Aliases.bcp">Aliases.bcp</a> By Yoni<br>
+ Allows you to create your own aliases for commands, or create chat-shortcut commands.</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/AlwaysOnTop.bcp">AlwaysOnTop.bcp</a> By Spht<br>
+ This plugins creates a "Window" menu from which you can toggle the bot being displayed on top of other
+ windows at all times, even when it loses focus.</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/AutoRejoin.bcp">AutoRejoin.bcp</a> By Spht<br>
+ This plugin forces the bot to attempt to return to the channel it got kicked from.</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/ChatEncode.bcp">ChatEncode.bcp</a> By Spht<br>
+ Adds the <b>/hex</b>, <b>/encrypt</b>, and <b>/reverse</b> commands so you can encode your messages in hex,
+ DarkMinion's "encryption," or "Coolio reverse," readable by bots which support these forms of chatting.</li>
+ <li>% <a href="http://fyrechat.openfyre.net/public/plugins/ChatFilters.bcp">ChatFilters.bcp</a> By Userloser<br>
+ Creates a "Plugin" menu from which you can manage user and message filters.</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/ChatFocus.bcp">ChatFocus.bcp</a> By Spht<br>
+ Adds the <b>/chatfocus</b> command to open a conversation window with a Battle.net user. All chat from
+ that person will be forwarded to this window, and when you send a message from the window it will
+ prepend their name. Multiple conversation windows can be open at once. Useful if you host a tech
+ support channel, or tend to talk to a lot of people at once.</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/ClanManager.bcp">ClanManager.bcp</a> By Spht<br>
+ Creates a "Plugin" menu from which you can add and remove clan members.<br>
+ <b>Note:</b> Warcraft III Only<br>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/ClanMOTD.bcp">ClanMOTD.bcp</a> By Spht<br>
+ Allows you to view your clan's message of the day using the command <b>/motd</b> and set the message of the day
+ using the command <b>/setmotd</b>.<br>
+ <b>Note:</b> WarCraft III Only</li>
+ <li># <a href="http://fyrechat.openfyre.net/public/plugins/DisableAwayIdle.bcp">DisableAwayIdle.bcp</a> By Spht<br>
+ Disables the away idle. (Reason: FyreChat handles internal /away, this plugin conflicts)</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/DMBotOp.bcp">DMBotOp.bcp</a> [
+ <a href="http://fyrechat.openfyre.net/public/plugins/DMBotOp-ReadMe.txt">ReadMe</a> ] By Spht<br>
+ Adds most of the functionality of DMBotOp 1.1 to SphtBotv3. Thanks to DarkMinion for the source code to DMBotOp 1.1.
+ I did very little modifying of DarkMinion's code, and close to zero testing, so there may be bugs.<br>
+ <b>Note:</b> Do not use in conjuction with Oper.</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/EmailManager.bcp">EmailManager.bcp</a> By Spht<br>
+ Creates a "Plugin" menu from which you can change the e-mail address which your account is registered to or
+ request a new password for your account.</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/FavoriteChannels.bcp">FavoriteChannels.bcp</a> By UserLoser<br>
+ Creates a "Plugin" menu from which you can add, remove, join channels on your favorite channels list.</li>
+ <li>% <a href="http://fyrechat.openfyre.net/public/plugins/FilterOfflineFriends.bcp">FilterOfflineFriends.bcp</a> By Yoni<br>
+ Allows you to toggle display of offline friends with the command <b>/fof</b> and display of non-mututal friends with
+ the command <b>/fmf</b>. (Reason: When using <b>/f l</b>, offline friends don't show regardless of /fof on or off)</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/FriendsManager.bcp">FriendsManager.bcp</a> By Sopht<br>
+ Creates a "Plugin" menu from which you can add and remove friends.</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/ImmediateSay.bcp">ImmediateSay.bcp</a> By Spht<br>
+ A say command which bypasses flood protection (<b>/say</b>)</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/KillExtraWork.bcp">KillExtraWork.bcp</a> By Spht<br>
+ Ignores ExtraWork messages when connecting to Battle.net (0x4A, 0x4C)</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/KillFriends.bcp">KillFriends.bcp</a> By Spht<br>
+ Ignores the binary friends update messages so bot won't display "Unrecognized packet" when updating your friend list
+ on Warcraft III or when friends log on/off. (Hides packets 0x65-0x69)</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/KillRealmMOTD.bcp">KillRealmMOTD.bcp</a> By UNKNOWN<br>
+ Ignores message(s) from realm with logging in with a character.</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/NetworkAnalyzer.bcp">NetworkAnalyzer.bcp</a> -
+ Creates a "Plugin" menu (that doesn't work) from which you can view number of bytes received from Battle.net.
+ Use <b>/networkstats</b> to view information.</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/oper.dll">oper.dll</a> [
+ <a href="http://fyrechat.openfyre.net/public/plugins/OperDoc.txt">Documentation</a> ] By Spht<br>
+ Adds bot capabilities to the Chat Client.<br>
+ <b>Note:</b> Do not use in conjunction with DMBotOp.</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/SetFont.bcp">SetFont.bcp</a> By Spht<br>
+ This plugins creates a "Window" menu from which you can toggle the chat output window's font settings.</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/StarcraftGameList.bcp">StarcraftGameList.bcp</a> By Skywing<br>
+ Offers commands for listing different types of Starcraft games. Commands: <b>/listany, /listmelee, /listffa, /listladder,
+ /listums, /listtvb.</b> (Reason: Sends 0x09 packet data, but no internal handling at the moment.)</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/Trivia.zip">Trivia.zip</a> By Spht<br>
+ Loads trivia questions and keeps track of user scores. <b>/trivia on|off|auto</b>.</li>
+ <li>% <a href="http://fyrechat.openfyre.net/public/plugins/UiNotify.bcp">UiNotify.bcp</a> By UNKNOWN<br>
+ Creates a "Plugin" menu from which you can manage UI alerts for talk/emote phrases.</li>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/WinampControl.bcp">WinampControl.bcp</a> By UserLoser<br>
+ Allows you to control Winamp through the bot. Commands: <b>/play, /stop, /pause, /next, /back, /sop, /eop, /volup, /voldown,
+ /rewind, /forward, /closewinamp, /songinfo, /sendsonginfo.</b></li>
+</ul>
+% - These plugins load correctly, but do not work.<br>
+# - These plugins load correctly, but cause issues.<br>
+<h3>Write your own:</h3>
+<ul>
+ <li><a href="http://fyrechat.openfyre.net/public/plugins/BCPSDK.zip">BCPSDK.zip</a><br>
+ Includes EmptyPlugin, PluginMenu, BCP Header, TelnetServer API, and BinaryChatCoreLite</li>
+</ul>
+<a href="http://validator.w3.org/check/referer"><img src="http://www.w3.org/Icons/valid-html401" align="right" border="0" alt="Valid HTML 4.01!" height="31" width="88"></a>
+</body>
+</html>

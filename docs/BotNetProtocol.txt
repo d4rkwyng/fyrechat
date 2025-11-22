@@ -1,0 +1,179 @@
+Updated 3-15-2002.
+
+     BotNet Protocol Specification
+---------------------------------------
+
+Thus documentation covers BotNet revisions 0x01 and 0x02.
+
+NOTE: The documentation on the administrative functionality is NOT YET COMPLETE. The documentation
+will be updated to cover the new administrative functionality of BotNet revision 0x02 shortly.
+
+The current protocol version is 0x01.  The maximum packet length is 511 bytes.
+The current server revision is 0x02 (Server_Version_Enhanced).
+Revision 0x02 is backwards compatible with revision 0x01 clients.
+Revision 0x02 is NOT backwards compatible with legacy revision 0x00 BotNet BETA clients.
+
+Additions in revision 0x02:
+* Unique account names.  By default, everyone has an account name of "No Account".  You can log on
+as an account through message 0x0d.  Accounts are guaranteed to be unique (only one instance can
+be logged on at any given time) and are password protected.  Valid characters in account names are:
+Any alphanumeric characters, and [] brackets.  Hence "No Account" cannot be "spoofed" or faked.
+Account names are given through a new field at the end of the stats change (0x06) message.  Note
+that creating an account does NOT log you on as that account.  When you log on as an account, all
+users on the BotNet will receive a stats change message (0x06) reflecting your new unique account
+name.
+* Administrative support.  The BotNet server now provides some basic administrative functionality
+to the server admin.  Admin functions are accessed through message 0x0c.
+
+You can use the following constants to refer to the new messages and functionality:
+("SEND" indicates that the BotNet server sends this message, and "RECV" indicates that the client
+sends this message).
+
+#define ADMIN_MSG_KICK_USER						(0x00000000) /* SEND,RECV */
+#define ADMIN_MSG_BAN_USER						(0x00000001) /* SEND,RECV */
+#define ADMIN_MSG_QUERY_USER					(0x00000002) /* SEND,RECV */
+#define ADMIN_MSG_QUERY_BANS					(0x00000003) /* SEND,RECV */
+#define ADMIN_MSG_UNBAN							(0x00000004) /* SEND,RECV */
+#define ADMIN_MSG_NOTIFY_ADMIN_PRIVILEGES		(0x00000005) /* SEND      */
+
+#define MSG_ID_ADMIN							(0x0000000c) /* SEND,RECV */
+
+#define ACCOUNT_MSG_LOGIN						(0x00000000) /* SEND,RECV */
+#define ACCOUNT_MSG_CHANGE_PASSWORD				(0x00000001) /* SEND,RECV */
+#define ACCOUNT_MSG_CREATE_ACCOUNT				(0x00000002) /* SEND,RECV */
+
+#define MSG_ID_ACCOUNT							(0x0000000d) /* SEND,RECV */
+
+Packet headers are formed as follows:
+(BYTE) protocol version
+(BYTE) packetid
+(SHORT) packetlen
+(...) DATA
+
+Current packets:
+(send to server) id 0x00: keepalive
+(NO DATA) --- there is no response to this packet.  You should send this once every 2-3 minutes.
+
+(send to client) id 0x00: keepalive
+(NO DATA) --- the server sends this to the client when the connection has been idle.  No response is needed.
+
+(send to server) id 0x01: log on to botnet
+(STRING) bot id
+(STRING) hub password
+
+(send to client) id 0x01: log on status
+(DWORD) status (0 FAIL 1 OK)
+
+(send to server) id 0x02: update bot stats
+(STRING) unique username on battle.net
+(STRING) current channel on battle.net
+(DWORD) battle.net server ip
+(STRING) database id (which database to use) * also now includes database password.  Use the following format: "name password".
+(DWORD) cycle status (0 NOTCYCLING 1 CYCLING)
+
+(send to client) id 0x02: update bot stats status
+(DWORD) status (0 FAIL 1 OK)
+
+--
+
+(send to server) id 0x03: database modification
+(DWORD) command
+command 1: request user database
+command 2: add a database entry/modify a database entry
+(STRING) usermask
+(STRING) flags
+command 3: remove a database entry
+(STRING) usermask
+
+(send to client) id 0x03: database change
+(DWORD) command
+command 2: new access list user/modify existing access list user
+(STRING) usermask
+(STRING) flags
+command 3: remove a database entry
+(STRING) usermask
+
+--
+
+(send to server) id 0x04: command to bots on same database
+(STRING) sending user
+(STRING) command
+
+(send to client) id 0x04: command over botnet
+(STRING) sender
+(STRING) command
+
+(send to server) id 0x05: cycle request
+(DWORD) count
+(STRING LIST) usernames of bots to cycle
+
+(send to client) id 0x05: cycle request notification
+(STRING) channel to cycle
+
+(send to server) id 0x06: request information about bots on botnet
+
+(send to client) id 0x06: botnet bot information
+(DWORD) bot id
+(STRING) bot name
+(STRING) bot channel
+(DWORD) bot server
+***** Added in Revision 0x02: (STRING) unique account name
+
+(send to server) id 0x07: command over botnet to all botnet bots (send 0x04 to client)
+(STRING) sending user
+(STRING) command
+
+(send to client) id 0x07: bot disconnecting from botnet
+(DWORD) bot id
+
+(send to server) id 0x08: command to specific botnet bot (send 0x04 to client)
+(DWORD) target bot id
+(STRING) sending user
+(STRING) command
+
+(send to server) id 0x09: change database password * Requires 'full' access
+(DWORD) password to change (0: readonly, 1: full, 2: restricted)
+(STRING) new password
+
+(send to client) id 0x0a: botnet server version
+(DWORD) version --- current version '2'.  This will change when new features are added.  Thus, you will know what features a particular botnet server supports right away.  This is sent before logon confirmation.
+Version information:
+Version 1 supports all packets 0x00 through 0x0b.
+Version 2 supports messages 0x0c and 0x0d.
+
+(send to server) id 0x0b: botnet chat
+(DWORD) command --- 0x00: message to all bots, 0x01: message to bots on the same database, 0x02: message to bot specified by id.
+(DWORD) action --- 0x00: talk, 0x01: emote
+(DWORD) id --- for command 0x02, id of bot to send to, otherwise ignored.
+(STRING) message --- chat message to send.
+
+(send to client) id 0x0b: botnet chat
+(DWORD) command --- 0x00: message to all bots, 0x01: message to bots on the same database, 0x02: message to bot specified by id.
+(DWORD) action --- 0x00: talk, 0x01: emote
+(DWORD) id --- id of source bot (for all commands)
+(STRING) message --- chat message sent.
+
+(send to server) id 0x0c: administrative functions
+More on these later...
+
+(send to client) id 0x0c: response to administrative functions
+More on these later...
+
+(send to server) id 0x0d: account management
+(DWORD) subcommand
+* Subcommand 0x00: Login:
+	(STRING) account name
+	(STRING) account password
+* Subcommand 0x01: Change password:
+	(STRING) account name
+	(STRING) old password
+	(STRING) new password
+* Subcommand 0x02: Account create:
+	(STRING) account name
+	(STRING) account password
+Other subcommand values are reserved for future use.
+
+(send to client) id 0x0d: account management reply
+(DWORD) subcommand --- This is the same subcommand as the message being replied to.
+
+(DWORD) BOOLEAN TRUE(1)/FALSE(0) : Success/Failure for subcommand

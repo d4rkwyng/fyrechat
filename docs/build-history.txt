@@ -1,0 +1,24 @@
+FyReBoT Build History
+*Please email any suggestions or bugs to: fyre@efyre.com
+
+   Index:
+    [ + ] Added Feature
+    [ - ] Removed Feature
+    [ » ] Fixed Feature
+    [ ¤ ] Edited Feature
+
+ Version 2.0 Build 60 (In Progress)
+  ¤ Extracts images from icons.bni file and loads
+  » Auto-Reconnect Error
+  + BCP Support (Binary Chat Plugin)
+  + D2DV Hash Support
+
+ Version 2.0 Build 55 (August 1 2004)
+  ¤ Creates System Tray Only When Minimized to Tray
+  ¤ Configuration now stored in Registry
+  ¤ About Window Updated
+  ¤ New Config Design
+  ¤ Custom Colors
+  ¤ FNLS Support
+  ¤ Hyperlinks in Profiles
+  + %music (Idle Variable) Replaces with current song playing

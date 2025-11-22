@@ -1,0 +1,290 @@
+Battle.net File Transfer - written by Yoni
+==========================================
+
+	Table of Contents
+	=================
+	
+	STEP 1: Establish a new connection to the server.
+	STEP 2: Request a file transfer session.
+	STEP 3: Send a file request packet.
+	STEP 4: Receive a confirmation packet from the server.
+	STEP 5: Receive the contents of the file from the server.
+	
+	APPENDIX: Invalid file request packets.
+
+========================================================================================
+STEP 1: Establish a new connection to the server.
+========================================================================================
+
+Establish a new connection (while keeping the old one).
+Connect to port 6112 of the same server as the "old" connection.
+
+========================================================================================
+STEP 2: Request a file transfer session.
+========================================================================================
+
+Session requests are 1 byte long, and they are the first byte sent to the server.
+Known session requests:
+	0x01 - game client
+	0x02 - file transfer
+	0x03 - chat client
+To establish a file transfer, send the byte 0x02.
+
+========================================================================================
+STEP 3: Send a file request packet.
+========================================================================================
+
+(2 bytes) 	Packet size
+(2 bytes) 	Unknown, always 00 01
+(8 bytes) 	Stat string
+(12 bytes)	Null bytes
+(8 bytes)	File date
+(Variant)	File name
+(1 byte)	Null byte
+
+Example #1:
+2D 00 00 01 36 38 58 49 4C 54 52 44 00 00 00 00		-...68XILTRD....
+00 00 00 00 00 00 00 00 00 2C 58 E1 09 28 BC 01		.........,Xá.(¼.
+49 58 38 36 76 65 72 31 2E 6D 70 71 00			IX86ver1.mpq.
+
+(2 bytes) Packet size:
+2D 00							-.
+
+(2 bytes) Unknown, always 00 01:
+00 01							..
+
+(8 bytes) Stat string:
+36 38 58 49 4C 54 52 44					68XILTRD
+
+(12 bytes) Null bytes:
+00 00 00 00 00 00 00 00 00 00 00 00			............
+
+(8 bytes) File date:
+00 2C 58 E1 09 28 BC 01					.,Xá.(¼.
+
+(Variant/12 bytes) File name:
+49 58 38 36 76 65 72 31 2E 6D 70 71			IX86ver1.mpq
+
+(1 byte) Null byte:
+00							.
+
+
+
+Example #2:
+2A 00 00 01 36 38 58 49 4C 54 52 44 00 00 00 00		*...68XILTRD....
+00 00 00 00 00 00 00 00 80 10 FD 1D 38 C4 BF 01		........€...8Ä¿.
+69 63 6F 6E 73 2E 62 6E 69 00				icons.bni.
+
+(2 bytes) Packet size:
+2A 00							*.
+
+(2 bytes) Unknown, always 00 01:
+00 01							..
+
+(8 bytes) Stat string:
+36 38 58 49 4C 54 52 44					68XILTRD
+
+(12 bytes) Null bytes:
+00 00 00 00 00 00 00 00 00 00 00 00			............
+
+(8 bytes) File date:
+80 10 FD 1D 38 C4 BF 01					€...8Ä¿.
+
+(Variant/9 bytes) File name:
+69 63 6F 6E 73 2E 62 6E 69				icons.bni
+
+(1 byte) Null byte:
+00							.
+
+
+
+Example #3:
+2D 00 00 01 36 38 58 49 4C 54 52 44 00 00 00 00		-...68XILTRD....
+00 00 00 00 00 00 00 00 DA D4 D7 D0 58 89 BF 01		........ÚÔ×ÐX‰¿.
+62 6E 73 65 72 76 65 72 2E 69 6E 69 00			bnserver.ini.
+
+(2 bytes) Packet size:
+2D 00							-.
+
+(2 bytes) Unknown, always 00 01:
+00 01							..
+
+(8 bytes) Stat string:
+36 38 58 49 4C 54 52 44					68XILTRD
+
+(12 bytes) Null bytes:
+00 00 00 00 00 00 00 00 00 00 00 00			............
+
+(8 bytes) File date:
+DA D4 D7 D0 58 89 BF 01					ÚÔ×ÐX‰¿.
+
+(Variant/12 bytes) File name:
+62 6E 73 65 72 76 65 72 2E 69 6E 69			bnserver.ini
+
+(1 byte) Null byte:
+00							.
+
+
+
+Example #4:
+2C 00 00 01 36 38 58 49 4C 54 52 44 00 00 00 00		,...68XILTRD....
+00 00 00 00 00 00 00 00 00 38 51 E2 30 A1 BD 01		.........8Qâ0¡½.
+74 6F 73 5F 55 53 41 2E 74 78 74 00			tos_USA.txt.
+
+(2 bytes) Packet size:
+2C 00							,.
+
+(2 bytes) Unknown, always 00 01:
+00 01							..
+
+(8 bytes) Stat string:
+36 38 58 49 4C 54 52 44					68XILTRD
+
+(12 bytes) Null bytes:
+00 00 00 00 00 00 00 00 00 00 00 00			............
+
+(8 bytes) File date:
+00 38 51 E2 30 A1 BD 01					.8Qâ0¡½.
+
+(Variant/11 bytes) File name:
+74 6F 73 5F 55 53 41 2E 74 78 74			tos_USA.txt
+
+(1 byte) Null byte:
+00							.
+
+========================================================================================
+STEP 4: Receive a confirmation packet from the server.
+========================================================================================
+
+(2 bytes)	Packet size
+(2 bytes)	Unknown, always 00 00
+(2 bytes)	File size
+(10 bytes)	Null bytes
+(8 bytes)	File date
+(Variant)	File name
+(1 byte)	Null byte
+
+Example #1:
+25 00 00 00 33 1B 00 00 00 00 00 00 00 00 00 00		%...3...........
+00 2C 58 E1 09 28 BC 01 49 58 38 36 76 65 72 31		.,Xá.(¼.IX86ver1
+2E 6D 70 71 00						.mpq.
+
+(2 bytes) Packet size:
+25 00							%.
+
+(2 bytes) Unknown, always 00 00:
+00 00							..
+
+(2 bytes) File size:
+33 1B							3.
+
+(10 bytes) Null bytes:
+00 00 00 00 00 00 00 00 00 00				..........
+
+(8 bytes) File date:
+00 2C 58 E1 09 28 BC 01					.,Xá.(¼.
+
+(Variant/12 bytes) File name:
+49 58 38 36 76 65 72 31 2E 6D 70 71 00			IX86ver1.mpq
+
+(1 byte) Null byte:
+00							.
+
+
+
+Example #2:
+22 00 00 00 C1 35 00 00 00 00 00 00 00 00 00 00		"...Á5..........
+80 10 FD 1D 38 C4 BF 01 69 63 6F 6E 73 2E 62 6E		€...8Ä¿.icons.bn
+69 00							i.
+
+(2 bytes) Packet size:
+22 00							".
+
+(2 bytes) Unknown, always 00 00:
+00 00							..
+
+(2 bytes) File size:
+33 1B							3.
+
+(10 bytes) Null bytes:
+00 00 00 00 00 00 00 00 00 00				..........
+
+(8 bytes) File date:
+80 10 FD 1D 38 C4 BF 01					€...8Ä¿.
+
+(Variant/9 bytes) File name:
+69 63 6F 6E 73 2E 62 6E 69				icons.bni
+
+(1 byte) Null byte:
+00							.
+
+
+
+Example #3:
+25 00 00 00 6C 01 00 00 00 00 00 00 00 00 00 00		%...l...........
+DA D4 D7 D0 58 89 BF 01 62 6E 73 65 72 76 65 72		ÚÔ×ÐX‰¿.bnserver
+2E 69 6E 69 00						.ini.
+
+(2 bytes) Packet size:
+25 00							%.
+
+(2 bytes) Unknown, always 00 00:
+00 00							..
+
+(2 bytes) File size:
+6C 01							l.
+
+(10 bytes) Null bytes:
+00 00 00 00 00 00 00 00 00 00				..........
+
+(8 bytes) File date:
+DA D4 D7 D0 58 89 BF 01					ÚÔ×ÐX‰¿.
+
+(Variant/12 bytes) File name:
+62 6E 73 65 72 76 65 72 2E 69 6E 69			bnserver.ini
+
+(1 byte) Null byte:
+00							.
+
+
+
+Example #4:
+24 00 00 00 12 2D 00 00 00 00 00 00 00 00 00 00		$....-..........
+00 38 51 E2 30 A1 BD 01 74 6F 73 5F 55 53 41 2E		.8Qâ0¡½.tos_USA.
+74 78 74 00						txt.
+
+(2 bytes) Packet size:
+24 00							$.
+
+(2 bytes) Unknown, always 00 00:
+00 00							..
+
+(2 bytes) File size:
+12 2D							.-
+
+(10 bytes) Null bytes:
+00 00 00 00 00 00 00 00 00 00				..........
+
+(8 bytes) File date:
+00 38 51 E2 30 A1 BD 01					.8Qâ0¡½.
+
+(Variant/11 bytes) File name:
+74 6F 73 5F 55 53 41 2E 74 78 74			tos_USA.txt
+
+(1 byte) Null byte:
+00							.
+
+========================================================================================
+STEP 5: Receive the contents of the file from the server.
+========================================================================================
+
+The file is sent "purely": The file is opened and its bytes are sent "as they are".
+The file packets have no headers, and only have file data in them.
+When the file is completely sent to you, the server closes the connection.
+
+========================================================================================
+APPENDIX: Invalid file request packets.
+========================================================================================
+
+If you send an invalid file request, the server doesn't send you the confirmation packet.
+Instead, the server closes the connection immediately (but does not IP-ban you).

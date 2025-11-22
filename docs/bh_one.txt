@@ -1,0 +1,461 @@
+FyReBoT Build History
+
+   Index:
+    [ + ] Added Feature
+    [ - ] Removed Feature
+    [ » ] Fixed Feature
+    [ ¤ ] Edited Feature
+
+ Version 2.0 Build 60 (August 2004)
+  ¤ Extracts images from icons.bni file and loads
+  » Auto-Reconnect Error
+  + BCP Support (Binary Chat Plugin)
+  + D2DV Hash Support
+	
+********Build Released********
+ Version 2.0 Build 55 (August 1 2004)
+  ¤ Creates System Tray Only When Minimized to Tray
+  ¤ Configuration now stored in Registry
+  ¤ About Window Updated
+  ¤ New Config Design
+  ¤ Custom Colors
+  ¤ FNLS Support
+  ¤ Hyperlinks in Profiles
+  + %music (Idle Variable) Replaces with current song playing
+
+ Build 86 (18 July 2004)
+  » STAR/SEXP - C7 to C9
+  ¤ %ver changed: (FyReBoT v1.0.86 to v1.0.86)
+  ¤ Author name update (FyRe to FyRe[sL])
+  + Shadow Legion website to About page
+
+********Build Released********
+ Build 85
+  ¤ Edited the program for new efyre.com web-site
+  - Disabled Logging System
+
+********Build Released********
+ Build 83 (8 December 2003)
+  » OpMode Bug (%ban, %kick, etc..) Now Work
+  » Reconnect Issue: Changing Channel in Config
+  + Whisper Reply when User tries to ban Operator or Master
+  ¤ ReadMe (NBBot Help)
+  + Example nbbot.cfg (Included in the zip)
+
+ Build 82 (3 December 2003)
+  - Web Chat Beta Feature (Removal)
+
+ Build 81 (30 November 2003)
+  ¤ Author name update (FyRe[RC] to FyRe)
+  » Account Creation Error
+
+ Build 80 (25 November 2003)
+  + /tell (acts as /w command for you FFXI users)
+
+ Build 79 (13 November 2003)
+  ¤ /getlag and /getinfo (When using wildcarding it will output all matches)
+    ex: [03:32:29] (19) Users found: RoyalCouncil -1, FixXxeR[RC] 234,
+	WoLF-SiLvErCLaW 94, W~Phoenix~{RC} 47, WoLF-Zonker[RC] 156,
+	Wise. 109, vampyriclust -1, BuLL[RC] 125, Flier-Baykin 47,
+	MatrixMan[RC] 78, MoFo[RC] 62, JaKoB[RC] 110, WadeP -1,
+	freman_scum[RC] 47, Assassin~{RC} 671, `Talon~{RC} 156,
+	Siobhan 140, SA~Entram~S{RC} 8422, FyRe 78
+
+ Build 78 (12 November 2003)
+  - Diablo II Option from Product Selection (Only D2XP supported)
+  ¤ Ping Spoof Box now cannot be edited
+  ¤ Realm Server Box now can be edited
+  ¤ Botomation Box now cannot be edited
+  + Current Public and Beta version output on program start
+
+ Build 77 (9 November 2003)
+  » Hash File Location Bug
+  + Checks Hash folder location before attempting to check version
+  - D2DV from Hash (Only D2XP supported)
+
+********Build Released********
+ Build 76 (5 November 2003)
+  ¤ Read-Me file for v1b75
+  » Tools => Option Freezing Bug
+
+********Build Released********
+ Build 75 (31 October 2003)
+  ¤ Old version output
+  + Version Byte for D2 1.10
+  » Bot Away
+  + Released to public
+
+ Build 74 (5-6 October 2003)
+  + View encryption offline
+  ¤ Online/Offline Different outputs for Console commands
+  + Console-Side (temp cmd): /rsakey
+  » More Bugs
+ 
+ Build 73 (5 October 2003)
+  » Fixed Away Timer (the 40 second difference)
+  » Fixed away uptime bug (/botaway)
+  » All known bugs fixed except
+    (Multiple output of joined channel when Joining Product-Specific)
+  + Whisper Popup (re-added)
+  ¤ Channel List Popup (More Stats options)
+  ¤ Output Display for XBase64 Encryption
+  + RSA Encryption (working progess - Console side: /rsa)
+
+ Build 72 (1-3 October 2003)
+  + Enhanced NBBot Scripting (Botomation)
+  + Option Explicit to every header (fixed a lot)
+
+ Build 71 (29-30 September 2003)
+  » Emote Bug
+  » Chat Bug
+  ¤ WebChat change to User list web display only (not available yet)
+  » Possible 35600 error
+  - NBBot Botomation
+  - Whisper Popup
+  ¤ Entire Code Cleanup
+  ¤ Data Arrival
+  » Channel Freezing Bug
+  + The Void viewing
+
+ Build 70 (27-28 September 2003)
+  ¤ Main window cleaned up (more precise)
+  + WebChat option (in concept)
+  + Tools => Clear => Chat/Whisper/Send Box/All
+  » Reconnect Bug
+  - Bot Intelligence Text (Feats. remain)
+
+ Build 69 (23-24 September 2003)
+  ¤ Main window size for smaller file size
+  - Create Game
+  - Channel List Manager
+  ¤ About window
+  ¤ Setup window
+  ¤ Auto-URL
+  + Right-Click URL to copy it to clipboard (Left to open)
+
+ Build 68 (19 September 2003)
+  + downloads icons.bni on startup (preparation to load icons from the file)
+  + customized recognition to packets
+  + more display on connecting
+ 
+ Build 67 (18 September 2003)
+  ¤ Before Event Box (works with default commands)
+  + Redirection to SendBox with Key punch
+  ¤ Ping:Flags
+  ¤ Help Menu
+   + Build History
+  + Logs Menu
+
+ Build 66 (17 September 2003)
+  ¤ BNET Icons (icons.bni)
+  + W3XP Icon
+  ¤ Configuration Window
+  + BGColor, Font, and Font Size Option
+  + W3XP Stats Recognition
+  + Before Event Box
+    (Text in Left Box appears before Text in Right Box)
+  + H4A Output
+  + StarCraft Game Creation
+  + Auto URL Detection
+
+ Build 61 - 65 (LOST SOURCE)
+********Build Released********
+18 July 2003
+ Build 65 (8-10 July 2003)
+  ¤ Resized the windows
+  ¤ Console-Side: /freechat on, /freechat off
+    (Still not finished)
+  » Ping:Flags
+
+ Build 64 (5-7 July 2003)
+  + WarCraft III: Frozen Throne Recognition
+  + W3XP Icon
+  - Startup Version in TextBox
+
+ Build 63 (27-28 May 2003)
+  + KeyAscii Re-Direct to Send box
+  + Before Event Box
+    (Text in Left Box appears before Text in Right Box)
+  + Version in Send Box (Clears Self on Connect)
+  » ToolTipTexts
+  ¤ Configuration GUI
+  + Console-Side: /freechat on, /freechat off (in concept)
+  » Version Text in Send Box
+
+ Build 62 (24 May 2003)
+  + Radiance Edition
+  - StarCraft Game Creation
+  » Botomation Mode Edit
+  » Lag Type Edit
+  ¤ Configuration
+ 
+ Build 61 (14-20 May 2003)
+  + Hash File Location Editing
+  + FyReBoT Setup
+
+********Build Fix Released********
+ Build 60 (14 May 2003)
+  » Version Reply Bug
+  - AutoDetect URLS (Improving)
+  ¤ /clear
+  + /clearw, /clearall
+
+**********Build Released**********
+ Build 60 (4-13 May 2003)
+  + NBBot Scripting
+  - Botomation internally for the time being
+  ¤ 0x50 Packet Sending (More Client Like)
+  + %ver to NBBot Scripting
+  + NBBot/Default Options Implemented
+  + Filter Add (Recommended: 7)
+  » Minor Bug with GMT Settings (0x50)
+  - About Form (save space)
+  » version whispered for Default Botomation
+
+ Build 59 (28-29 April 2003)
+  » Realm GUI Bug
+  ¤ (Disabled) Realm Selection on Realm Connect
+  » "/r" for Non-D2
+  » Login character Bug
+  ¤ Lag Spoofing
+  + UDP Plug Support
+  ¤ Config.ini writing/loading variables
+
+ Build 58 (28 April 2003)
+  ¤ Realm GUI
+  + Realm Information
+  + Create Character Information
+
+ Build 57 (27 April 2003)
+  » BackStab Tooltip text
+  ¤ deluser command for multiple deletions
+  ¤ Icons for product and ping
+  - commands command
+  + Ping for Logged on as..
+  - Slight delay before loading users
+  ¤ Realm Logging after channel entry
+    (possible Channel Freeze x5)
+  
+ Build 56 (24 April 2003)
+  » "/r" Bug
+  » Path not found
+  + D2 Status Update Option
+  ¤ Filtering to "/ignore" user & not add to channel
+  + Join Product Specific on Connect Option
+  + Slight delay before loading users
+    (possible Channel Freeze x4)
+  ¤ About + Bot Testing to 7 users
+
+ Build 55 (23-24 April 2003)
+  » Find feature for multiple results
+  + Console side: /find (try /find *)
+  » Saving of Config without Database/Filters.txt
+  ¤ Build-History.txt with new Index
+  + Zero Lag Option
+  + Confirm Exit Option
+
+ Build 54 (23 April 2003)
+  » Auto-Reconnect to Work with Timer
+  + Lag Delay Option
+  » Filters Bug
+  » Channel freezing x3
+  ¤ Entire bot code
+  + Console side: /count
+  + Operator side: count
+  + Anti-idle options: %self, %chan, %connected, %botuptime, %idle, %banned
+  - Console side: /beep
+
+ Build 53 (22 April 2003)
+  ¤ Configuration form
+  + Database and Filters to new Configuration
+  ¤ Edited Code for new Config
+  ¤ About Thanks info smaller
+  + Console Side: /idle on, off, msg
+  » Runtime Error 52 on Config
+
+ Build 52 (21 April 2003)
+  » Fixed Beta/Banned User checking for more stability
+  » Lag on connection to battle.net
+  ¤ Away-Idle: more compatible with flood protection
+  - "...marked as away" notice during Away-Idle
+  - Old Max Length code
+  » Channel freezing x2
+
+ Build 51 (20-21 April 2003)
+  + Flood Detect Ban if Moderator
+  + Console Side: /memberlist, /bannedusers, /filteredusers
+  + Operator Side: bannedusers, filteredusers
+  » Runtime Errors for Realm
+  ¤ Ping:Flags Code
+  + Added Error Prevention to Filters, Database
+  - Status Bar
+  ¤ Max Chat Length
+  - Error Messages added more error preventing
+
+**********Build Released**********
+ Build 50 (20 April 2003)
+  ¤ Reviewed all code
+
+ Build 49 (19 April 2003)
+  » Filters for Wildcarding (Ex: *flood*)
+  + FloodBot Protection (If user joins 7x in a row)
+  ¤ Filters to block join/leave also
+
+ Build 48 (18-19 April 2003)
+  + Filters Manager
+  + Filters for Talk, Whisper, and Emote
+
+ Build 47 (18 April 2003)
+  ¤ Coding for 0x50 Sending
+  ¤ Coding for D2DV/D2XP *
+  » Channel freezing bug
+  » Adding to Banned users list
+  ¤ Database for the three types (G, O, & F)
+  » All ToolTip Labels for Configs
+
+ Build 46 (17-18 April 2003)
+  + Beta User Check
+  + Banned User Check
+  » Case-Sensitivy for All Users
+
+ Build 45 (17 April 2003)
+  + Console Side: /banned
+  + Operator Side: banned
+  » Unban - Now searches list of previously banned users
+  » Bug with banned users who don't exist
+
+ Build 44 (16 April 2003)
+  + Console Side: /clearqueue, /queue
+  + Operator Side: clearqueue
+  + Received Packet Info to StatusBar
+  » Max Length for Whisper window also
+
+ Build 43 (15-16 April 2003)
+  » Fixed Version Checking on Startup
+  + Max Length to Chat Windows
+  + Flood Protection
+  + Delay to Auto-Reconnect
+
+ Build 42 (15 April 2003)
+  + WildCard Function
+  + WildCard to:
+     Console side:
+      /ignore | /squelch, /unignore | /unsquelch
+      /whois, /kick, /ban, /unban /w | /m | /msg | /whisper
+      /adduser, /deluser, /profile, /getinfo, /getlag
+     Operator side:
+      ban, unban, kick, adduser, deluser, getinfo, getlag
+  » Shutdown command
+
+ Build 41 (14-15 April 2003)
+  + Fagban rank and Auto-Ban for F ranks
+  » Auto-Designate
+  » deluser command
+  ¤ getlag and getinfo for multiple users
+  + Console side: /getlag
+  + Console side: /adduser, /deluser
+  » Extra space on adduser
+  + Outside channel getlag
+  ¤ Adduser and Deluser for multiple tags
+  ¤ WhisperTo so it displays your Ping
+
+ Build 40 (13 April 2003)
+  ¤ Project Information
+  + Database (o - operator, g - general)
+  ¤ Commands for Database
+  » Bug with no database.txt in folder
+  » Bug as moderator
+  » Bugs with Database
+  + Operator side: adduser, deluser, memberlist
+                   find, trigger, master, commands
+  + Botomation option (turns on/off Command usage)
+
+ Build 39 (11-13 April 2003)
+  ¤ Changed Visualization slightly
+  » SystemTray Icon Bug
+  - Private Build and introducing Beta Build
+    (Beta is limited to 5 users at a time)
+  + About to SystemTray Popup menu
+  » Ping:Flags bug for self.
+  + Double-click for profiles in channel list
+  + Double-dlick to joining channels in channel manager
+  » StarCraft browsing option
+  + Auto-Realm choice to config
+  » Minor bugs in Configuration
+
+ Build 38 (5-10 April 2003)
+  ¤ About List
+  + Bot version checking on startup
+  + Operator side: "trigger"
+  + Max Length to Home Channel
+  ¤ Entire Code & Config.ini
+
+ Build 37 (4 April 2003)
+  - Old Logging system
+  + New Logging system (0x50
+  ¤ Condensed 3 dlls into 1
+  + Account Creation if failed login
+  + StarCraft Create Game and Edited
+
+ Build 36 (3 April 2003)
+  + Operator side: getlag
+  + Minimize to SystemTray Option
+
+**********Build Released**********
+ Build 35 (3 April 2003)
+ 4/1/03
+  + War3 April Fools Lost Viking Icon Detection
+  » Fixed TimeStamp on Whisper Window
+  + MOTD to Welcome window
+  + Realm Login (Works with Create/Delete but Having diff. with Login)
+  + User Logging so I can keep track of who uses the program
+
+ 3/31/03
+  » X-Base64 Encryption Bug
+  » Byte for Starcraft patch 1.10 (0xC7)
+  » Logging Bug
+  -PopUp message on Start
+
+ 3/30/03
+  ¤ Old FBBot Encrypt "/e" with new X-Base64 Encryption
+  + "/n" -- the old NBBot reversed encryption
+  + Search for STAR/W2Bn/D2DV folder before sending Hash (to avoid IP Ban)
+  + Mini-whisper window
+  » Minor bug with version output
+  » "/r" when used more then once
+
+ 3/27/03
+  + ToolTipText to all Labels
+  » Maximized to SystemTray
+  » 'getinfo' bug and all whispered bugs
+  » Minimizing to System Tray
+  » Profile bug
+  » Maximum values for Configuration textboxes
+  + ToolTipText to Labels in Configuration and Profile
+  + ToolTipText to Lag Bars, which displays the user's ping
+  ¤ LOD-Key entry, so you must have Lord of Destruction selected in order to
+    enter in the key
+  ¤ Title Bar to display version
+  ¤ System Tray icon to change Caption text when connected/disconnected
+
+ 3/19/03
+  - Removed BNLS
+  - Removed AdBanner option (uses AdBanner default if no anti-idle is selected)
+  » All triggered commands.
+  » Second moderator flag update
+  + Triggered getinfo, which finds the user in the channel and displays their
+    information.
+  + Triggered rejoin, which is equivalent to "/rejoin2" (Creates and Leaves game)
+  + All Operator-type commands to whisper access.
+
+**********Build Released**********
+ Build 20 (17 March 2003)
+  + Added Better Realm Support
+  + Create/Leave Games for StarCraft
+  + Color Changes
+  + Optional Ping:Flags before events
+  + And Much More (Forgot to write it all down ;P)
+
+
+** Version 1.0 Build 0 (1 March 2003) **
+  + Original Public Release
