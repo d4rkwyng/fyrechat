@@ -21,7 +21,7 @@
 | msvcp50.dll | [Download](https://mindtricks.io) |
 | mswinsck.ocx | [Download](https://mindtricks.io) |
 | richtx32.ocx | [Download](https://mindtricks.io) |
-| Hash Files | [Download](https://mindtricks.io) |
+| Hash Files | [Download](https://fyrechat.openfyre.net/hash/) |
 
 ## Bot Configuration
 
