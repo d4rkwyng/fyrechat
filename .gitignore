@@ -6,3 +6,7 @@ Icon?
 ._*
 .Spotlight-V100/
 .Trashes
+
+# Windows system files
+Thumbs.db
+Desktop.ini
