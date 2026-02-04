@@ -17,10 +17,10 @@
 | FyReBoT.dll | Included |
 | comdlg32.dll | Required |
 | comdlg32.ocx | Required |
-| mscomctl.dll | [Download](https://mindtricks.io) |
-| msvcp50.dll | [Download](https://mindtricks.io) |
-| mswinsck.ocx | [Download](https://mindtricks.io) |
-| richtx32.ocx | [Download](https://mindtricks.io) |
+| mscomctl.dll | [Download](https://fyrechat.openfyre.net/required/) |
+| msvcp50.dll | [Download](https://fyrechat.openfyre.net/required/) |
+| mswinsck.ocx | [Download](https://fyrechat.openfyre.net/required/) |
+| richtx32.ocx | [Download](https://fyrechat.openfyre.net/required/) |
 | Hash Files | [Download](https://fyrechat.openfyre.net/hash/) |
 
 ## Bot Configuration
