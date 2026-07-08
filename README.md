@@ -36,6 +36,19 @@ A Battle.net chat client developed from FyReBoT source. Emulates a Blizzard clie
 | Warcraft III | WAR3 | NLSv2 |
 | Warcraft III: The Frozen Throne | W3XP | NLSv2 |
 
+## Connecting in 2026
+
+The old default logon server (`bnls.net`) is gone, so FyreChat needs a **BNLS server** to handle the version-check and CD-key hashing steps (this is what lets the bot connect without the games installed). Point it at the public one we host:
+
+> **`bnls.openfyre.net`** &nbsp;—&nbsp; port **9367** &nbsp;(alias: `jbls.openfyre.net`)
+
+You can also run your own — the [project page](https://mindtricks.io/projects/fyrechat/about#bnlsjbls-server) has server downloads (they include the hash files).
+
+**What still connects (tested July 2026):**
+
+- **Official Battle.net** — **Diablo**, **Diablo Shareware**, **Diablo II**, **Diablo II: Lord of Destruction**, and **Warcraft II: Battle.net Edition** log on and enter chat with a valid CD key. (Diablo II uses Blizzard's 2019 "CheckRevision 3a" scheme, which the BNLS server must support.)
+- **StarCraft, Brood War, and Warcraft III** are blocked on official Battle.net by Blizzard's remaster-era changes — but they connect to **[PvPGN](https://pvpgn.pro/)** community servers instead (classic client versions, account auto-creation, chat — verified end-to-end on Diablo II). Warcraft III additionally needs a source change to skip the Blizzard server-signature check on PvPGN.
+
 ## Features
 
 - **Connection** — BNLS-based authentication with Broken SHA-1 and NLSv2 logon support
