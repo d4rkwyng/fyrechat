@@ -42,7 +42,7 @@ The old default logon server (`bnls.net`) is gone, so FyreChat needs a **BNLS se
 
 > **`bnls.openfyre.net`** &nbsp;—&nbsp; port **9367** &nbsp;(alias: `jbls.openfyre.net`)
 
-You can also run your own — the [project page](https://mindtricks.io/projects/fyrechat/about#bnlsjbls-server) has server downloads (they include the hash files).
+Another public option is `jbls.davnit.net`. To run your own, use [Davnit/JBLS](https://github.com/Davnit/JBLS) — the maintained source, which includes the CheckRevision 3a support that Diablo II needs.
 
 **What still connects (tested July 2026):**
 
