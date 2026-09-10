@@ -175,6 +175,13 @@ Dim d As String: d = bnlsPB.GetBuffer
 End Sub
 
  ' BNLS_HASHDATA (0x0B)
+ ' NOTE: as of the local-hashing change in clsOldAuth.cls, the account
+ ' logon (SID_LOGONRESPONSE/2) and account creation (SID_CREATEACCOUNT) call
+ ' sites in modBNCS.bas no longer come through here - they compute the
+ ' Broken SHA-1 hash locally via bncsutil instead of round-tripping the
+ ' plaintext password through BNLS. This handler, and the HType/SPass/cB/Hash()
+ ' state machine below, is still live for realm-password login
+ ' (sndLogRealmEx -> SID_LOGONREALMEX), which is unchanged.
 Private Sub rcvBNLSHash()
 Dim d As String: d = bnlsPB.GetBuffer
     '(DWORD) [5] The data hash.
