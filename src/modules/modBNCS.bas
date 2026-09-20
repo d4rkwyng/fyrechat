@@ -129,8 +129,9 @@ End Function
 ' Sends the OLS logon packet (SID_LOGONRESPONSE / SID_LOGONRESPONSE2) using a
 ' password hash already computed locally via bncsutil (clsOldAuth). This is
 ' exactly what modBNLS.bas's rcvBNLSHash used to do for HType=1 once BNLS
-' returned the double hash (its cB=2/SPass=True branch) - only where that hash
-' came from has changed, not what happens to it afterwards.
+' returned the double hash (its old cB=2/SPass=True branch, since removed
+' as dead code) - only where that hash came from has changed, not what
+' happens to it afterwards.
 Private Sub sndOldAuthLogon(pwHash As String)
     If BNET.varDebugMode = 1 Then
         Select Case BNET.Product
@@ -1289,7 +1290,6 @@ Public Sub sndLogRealmEx(Realm As String)
             .InsertNonNTString "password"  ' (VOID) Data to be hashed
             .SendBNLSPacket &HB
             .Clear
-            SPass = False
         End With
     End If
 End Sub

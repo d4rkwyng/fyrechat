@@ -179,9 +179,12 @@ End Sub
  ' logon (SID_LOGONRESPONSE/2) and account creation (SID_CREATEACCOUNT) call
  ' sites in modBNCS.bas no longer come through here - they compute the
  ' Broken SHA-1 hash locally via bncsutil instead of round-tripping the
- ' plaintext password through BNLS. This handler, and the HType/SPass/cB/Hash()
- ' state machine below, is still live for realm-password login
- ' (sndLogRealmEx -> SID_LOGONREALMEX), which is unchanged.
+ ' plaintext password through BNLS, and HType is never set to 1 for that
+ ' path anymore (nor to 2 at all - the old SID_CREATEACCOUNT branch below
+ ' was removed as dead code along with this). The HType=1/cB/Hash() state
+ ' machine below is only reached now via sndLogRealmEx (SID_LOGONREALMEX),
+ ' which is unchanged; the SPass account-logon branch it used to also cover
+ ' is gone with it.
 Private Sub rcvBNLSHash()
 Dim d As String: d = bnlsPB.GetBuffer
     '(DWORD) [5] The data hash.
@@ -195,7 +198,7 @@ Dim d As String: d = bnlsPB.GetBuffer
             Hash(1) = sPB.MakeDWORD(ServerToken)    ' (DWORD) Server Key (Double Hash Only) - Optional
             ' (DWORD) Cookie (Cookie Hash Only) - Optional
             Hash(2) = Mid(d, 4, Len(d) - 3)               ' (VOID) Data to be hashed
-            
+
             With sPB
                 .InsertDWORD &H1C                               ' (DWORD) Size of Data
                 .InsertDWORD &H1                                ' (DWORD) Flags - unused
@@ -205,48 +208,13 @@ Dim d As String: d = bnlsPB.GetBuffer
         ElseIf cB = 2 Then
             'AddChat Color.Carrot, "[Debug] ", Color.Bot, "CB: ", Color.Message, cB
             With sPB
-                If SPass = True Then
-                    If BNET.varDebugMode = 1 Then
-                        Select Case BNET.Product
-                            Case "RTSJ", "RHSS", "LTRD", "RHSD": cpID = "[C 0x29] "
-                            Case Else: cpID = "[C 0x3A] "
-                        End Select
-                    End If
-                    AddChat Color.BotInfo, svrBNCS, Color.Bot, cpID & "Attempting to log on..."
-                    .InsertDWORD ClientToken                                    ' (DWORD) Client Token
-                    .InsertDWORD ServerToken                                    ' (DWORD) Server Token
-                    .InsertNonNTString Mid(d, 4, Len(d) - 3)                    ' (DWORD) [5] Password Hash
-                    .InsertNTString BNET.username
-                    
-                    ' Debug
-                    'If BNET.varDebugMode Then
-                    '    AddChat Color.Carrot, "[Debug] ", Color.Bot, "Client Token: ", Color.Message, ClientToken
-                    '    AddChat Color.Carrot, "[Debug] ", Color.Bot, "Server Token: ", Color.Message, ServerToken
-                    'End If
-                    
-                    Select Case BNET.Product
-                        Case "RTSJ", "RHSS", "LTRD", "RHSD": .SendPacket &H29   ' SID_LOGONRESPONSE
-                        Case Else: .SendPacket &H3A                             ' SID_LOGONRESPONSE2
-                    End Select
-                    
-                    SPass = False
-                    cB = 0
-                Else
-                    .InsertDWORD ClientToken                        ' (DWORD)      Client key
-                    .InsertNonNTString Mid(d, 4, Len(d) - 3)        ' (DWORD[5])   Hashed realm password
-                    .InsertNTString BNET.Realm                      ' (STRING)     Realm title
-                    .SendPacket &H3E                                ' SID_LOGONREALMEX
-                    cB = 0
-                End If
+                .InsertDWORD ClientToken                        ' (DWORD)      Client key
+                .InsertNonNTString Mid(d, 4, Len(d) - 3)        ' (DWORD[5])   Hashed realm password
+                .InsertNTString BNET.Realm                      ' (STRING)     Realm title
+                .SendPacket &H3E                                ' SID_LOGONREALMEX
+                cB = 0
             End With
         End If
-    ElseIf HType = 2 Then
-        'AddChat Color.Carrot, "[Debug] ", Color.Bot, "HType: ", Color.Message, HType
-        With sPB
-            .InsertNonNTString Mid(d, 4, Len(d) - 3)
-            .InsertNTString BNET.username
-            .SendPacket &H2A
-        End With
     ElseIf HType = 3 Then
         'AddChat Color.Carrot, "[Debug] ", Color.Bot, "HType: ", Color.Message, HType
         Static Hash2 As String
