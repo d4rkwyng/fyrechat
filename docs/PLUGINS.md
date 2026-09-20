@@ -1,7 +1,7 @@
 # FyreChat Plugins
 
 To manually load a plugin, type `/loadplugin path/pluginname.bcp`
-(e.g. `/loadplugin plugins/disabled/oper.dll`)
+(e.g. `/loadplugin plugins/disabled/ClanManager.bcp`)
 
 Or move the plugin into the plugins folder for auto-loading.
 
@@ -19,13 +19,13 @@ Plugins require Visual C++ 7 Runtimes (included in Required Files).
 | ChatEncode.bcp | Spht | Adds `/hex`, `/encrypt`, and `/reverse` commands for message encoding |
 | ChatFilters.bcp % | UserLoser | Manage user and message filters |
 | ChatFocus.bcp | Spht | Open conversation windows with Battle.net users via `/chatfocus` |
-| ClanManager.bcp | Spht | Add and remove clan members (Warcraft III only) |
+| ClanManager.bcp ^ | Spht | Add and remove clan members (Warcraft III only) |
 | ClanMOTD.bcp | Spht | View/set clan message of the day via `/motd` and `/setmotd` (Warcraft III only) |
-| DisableAwayIdle.bcp # | Spht | Disables the away idle (conflicts with FyreChat's internal /away) |
-| DMBotOp.bcp | Spht | Adds DMBotOp 1.1 functionality. Do not use with Oper. |
+| DisableAwayIdle.bcp #^ | Spht | Disables the away idle (conflicts with FyreChat's internal /away) |
+| DMBotOp.bcp ^ | Spht | Adds DMBotOp 1.1 functionality. Do not use with Oper. |
 | EmailManager.bcp | Spht | Change account email or request a new password |
 | FavoriteChannels.bcp | UserLoser | Manage and join favorite channels |
-| FilterOfflineFriends.bcp % | Yoni | Toggle display of offline/non-mutual friends via `/fof` and `/fmf` |
+| FilterOfflineFriends.bcp %^ | Yoni | Toggle display of offline/non-mutual friends via `/fof` and `/fmf` |
 | FriendsManager.bcp | Sopht | Add and remove friends |
 | ImmediateSay.bcp | Spht | Say command that bypasses flood protection (`/say`) |
 | KillExtraWork.bcp | Spht | Ignores ExtraWork messages when connecting (0x4A, 0x4C) |
@@ -41,6 +41,7 @@ Plugins require Visual C++ 7 Runtimes (included in Required Files).
 
 **%** — Loads correctly but does not work.
 **#** — Loads correctly but causes issues.
+**^** — Ships in `plugins/disabled/`, not `plugins/`; needs `/loadplugin plugins/disabled/<name>` (or moving the file) rather than auto-loading.
 
 ## Write Your Own
 
