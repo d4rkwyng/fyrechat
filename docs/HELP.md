@@ -82,7 +82,6 @@ Usage: `/command`
 | `/realmserverlist` | Displays available realms to connect to |
 | `/realmgamelist` | Displays available Diablo 2 games to join |
 | `/realmjoingame` *gamename* | Attempts to join the Diablo 2 game |
-| `/changepassword` *newpassword* | Changes your password (currently only WAR3/W3XP) |
 
 ## Thanks (Archival)
 

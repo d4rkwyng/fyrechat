@@ -1157,7 +1157,7 @@ On Local Error Resume Next
                         End If
                         Erase tmpSetChar()
                     Case "realmconnect"
-                        If Not BNET.Product = "VD2D" Or BNET.Product = "PX2D" Then
+                        If Not (BNET.Product = "VD2D" Or BNET.Product = "PX2D") Then
                             AddChat Color.BotInfo, "[Bot] ", Color.Error, "Not using Diablo 2 or Lord of Destruction."
                         Else
                             If frmRealm.wsMCP.State = sckConnected Then
