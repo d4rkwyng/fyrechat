@@ -81,7 +81,7 @@ Usage: `/command`
 | `/news` | Gets and displays news from battle.net 0x46 |
 | `/realmserverlist` | Displays available realms to connect to |
 | `/realmgamelist` | Displays available Diablo 2 games to join |
-| `/realmjoingame` *gamename* | Attempts to join the Diablo 2 game |
+| `/realmjoingame` *gamename* [*password*] | Attempts to join the Diablo 2 game (password optional) |
 
 ## Thanks (Archival)
 

@@ -13,15 +13,20 @@ On Local Error Resume Next
         cmdProc = Mid(cmd, 2)
     End If
     
+    ' Local client commands: these never touch the Battle.net socket, so they
+    ' must work whether or not we are connected (/reconnect especially).
+    Select Case LCase(cmdProc)
+        Case "clearscreen": frmMain.Chat_Output.text = "": Exit Sub
+        Case "clear": ClearBuffers: Exit Sub
+        Case "clearqueue": frmMain.lstEnqueue.Clear: Exit Sub
+        Case "disconnect": frmMain.DisconnectProc: Exit Sub
+        Case "reconnect": frmMain.ConnectProc: Exit Sub
+    End Select
+    
     If frmMain.wsBNET.State = sckConnected Then
         Select Case LCase(cmdProc)
             Case "reply": Send "/w " & WReply & " " & spltCmd(1), frmMain.wsBNET
             Case "rejoin": Rejoin BNET.CurrentChan
-            Case "clearscreen": frmMain.Chat_Output.text = ""
-            Case "clear": ClearBuffers: Exit Sub
-            Case "clearqueue": frmMain.lstEnqueue.Clear
-            Case "disconnect": frmMain.DisconnectProc
-            Case "reconnect": frmMain.ConnectProc
             Case "compuptime": Send App.ProductName & " - Computer Uptime: " & FormatCount(GetTickCount), frmMain.wsBNET
             Case "botuptime": Send App.ProductName & " Uptime: " & FormatCount(GetTickCount - RunningTime), frmMain.wsBNET
             Case "connected": Send App.ProductName & " - Connection Uptime: " & FormatCount(GetTickCount - connecttime), frmMain.wsBNET
@@ -45,8 +50,9 @@ On Local Error Resume Next
         Exit Sub
     End If
     
-    Select Case cmdProc
+    Select Case LCase(cmdProc)
         Case "downloadfile": ConnectBNETFTP spltCmd(1)
+        Case Else: AddChat Color.BotInfo, "[Bot] ", Color.Error, "You are not connected to Battle.net."
     End Select
 
     Erase spltCmd()

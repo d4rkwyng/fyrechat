@@ -1136,7 +1136,7 @@ On Local Error Resume Next
                         ResPlug = RemovePlugin(Plugin)
                         If ResPlug Then
                             AddChat Color.BotInfo, "Successfully unloaded plugin " & Plugin
-                            For i = 1 To lstPlugins.ListItems.Count
+                            For i = lstPlugins.ListItems.Count To 1 Step -1
                                 If InStr(LCase(lstPlugins.ListItems(i).text), LCase(Plugin)) Then lstPlugins.ListItems.Remove (i)
                             Next i
                         Else
@@ -1145,7 +1145,7 @@ On Local Error Resume Next
                     Case "listplugins"
                         Dim tmpPlugin As String
                         AddChat Color.BotInfo, lstPlugins.ListItems.Count & " Loaded Plugin(s)"
-                        For i = 0 To lstPlugins.ListItems.Count
+                        For i = 1 To lstPlugins.ListItems.Count
                             AddChat Color.info, lstPlugins.ListItems(i).text
                         Next i
                     Case "setcharactername"
@@ -1191,9 +1191,10 @@ On Local Error Resume Next
                         End If
                         Erase tmpSetServ()
                     Case "setproduct"
-                        Dim tmpSetProduct() As String
+                        Dim tmpSetProduct() As String, ValidProduct As Boolean
                         tmpSetProduct() = Split(User_Input.text, " ")
                         If UBound(tmpSetProduct()) = 1 Then
+                            ValidProduct = True
                             Select Case tmpSetProduct(1)
                                 Case "STAR": frmConfig.cboProduct.text = "StarCraft"
                                 Case "SEXP": frmConfig.cboProduct.text = "StarCraft Brood War"
@@ -1206,13 +1207,13 @@ On Local Error Resume Next
                                 Case "W2BN": frmConfig.cboProduct.text = "Warcraft II Battle.net Edition"
                                 Case "WAR3": frmConfig.cboProduct.text = "Warcraft III"
                                 Case "W3XP": frmConfig.cboProduct.text = "Warcraft III The Frozen Throne"
-                                Case Else: AddChat Color.BotError, "Not a supported product."
+                                Case Else: AddChat Color.BotError, "Not a supported product.": ValidProduct = False
                             End Select
-                            frmConfig.cmdSave_Click
+                            If ValidProduct Then frmConfig.cmdSave_Click
                             Erase tmpSetProduct()
                         Else
                             AddChat Color.BotInfo, "[Bot] ", Color.Bot, "Product Options: ", Color.Message, "STAR, SEXP, JSTR, SSHR, " & _
-                            "DRTL, D2DV, D2XP, W2BN, WAR3, W3XP"
+                            "DRTL, DSHR, D2DV, D2XP, W2BN, WAR3, W3XP"
                         End If
                     Case "sethome"
                         Dim tmpSetHome() As String
@@ -1280,12 +1281,16 @@ On Local Error Resume Next
                         If Not frmRealm.wsMCP.State = 7 Then
                             AddChat Color.BotInfo, "[Bot] ", Color.BotError, "You are not connect to MCP."
                         Else
-                            Dim spltJGame() As String
+                            Dim spltJGame() As String, jGamePass As String
                             spltJGame() = Split(User_Input.text, " ")
+                            ' Password is optional. Indexing a missing spltJGame(2) raised an
+                            ' error that Resume Next skipped, so the packet went out with no
+                            ' password field at all.
+                            If UBound(spltJGame()) >= 2 Then jGamePass = spltJGame(2)
                             With sPB
                                 .InsertWORD Val("&H" & 2)   ' (WORD) Request ID
                                 .InsertNTString spltJGame(1)    ' (STRING) Game name
-                                .InsertNTString spltJGame(2)    ' (STRING) Game Password
+                                .InsertNTString jGamePass       ' (STRING) Game Password
                                 .SendRPacket &H4                ' MCP_JOINGAME
                             End With
                         End If
