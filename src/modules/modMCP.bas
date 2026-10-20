@@ -54,10 +54,10 @@ End Sub
 ' MCP_STARTUP (0x01)
 Private Sub rcvStartup()
     Select Case mcpPB.GetDWORD ' (DWORD) Result
-        Case &H2, &HA - &HD
+        Case &H2, &HA To &HD
             AddChat Color.BotInfo, svrMCP, Color.Bot, spID, Color.Error, "No Battle.net connection detected!"
             frmRealm.RealmDisconnect
-        Case &HE
+        Case &H7E
             AddChat Color.BotInfo, svrMCP, Color.Bot, spID, Color.Error, "CDKey banned from realm play."
              frmRealm.RealmDisconnect
         Case &H7F

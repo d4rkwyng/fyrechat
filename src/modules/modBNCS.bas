@@ -708,10 +708,10 @@ Dim errMsg As String
         Case &H7: errMsg = "Name is too short/blank.": GoTo Failed
         Case &H8: errMsg = "Name contains an illegal character.": GoTo Failed
         Case &H9: errMsg = "Name contains an illegal word.": GoTo Failed
-        Case &H9: errMsg = "Name contains too few alphanumeric characters.": GoTo Failed
+        Case &HA: errMsg = "Name contains too few alphanumeric characters.": GoTo Failed
         Case &HB: errMsg = "Name contains adjacent punctuation characters.": GoTo Failed
         Case &HC: errMsg = "Name contains too many punctuation characters.": GoTo Failed
-        Case Else: errMsg = "Any other: Name already exists.": GoTo Failed
+        Case Else: errMsg = "Name already exists.": GoTo Failed
     End Select
     Exit Sub
 Failed:
