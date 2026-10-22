@@ -2,6 +2,11 @@ Attribute VB_Name = "modBNCS"
 Option Explicit
 Public AuthHash As String, MPQName As String
 Private bncsPB As New clsBuffer
+' Local OLS (Broken SHA-1) password hashing via bncsutil.dll - see clsOldAuth.cls
+' and NOTICE.md. Used only for the four old-auth call sites below; NLS logon,
+' CD-key hashing and server-signature verification still go through BNLS
+' (see modBNLS.bas), unaffected by this.
+Private OldAuth As New clsOldAuth
 
 Private spID As String
 Private cpID As String
@@ -107,6 +112,46 @@ Dim pID As Byte, msgLen As Long, Msg As String
     End Select
 End Sub
 
+' Confirms bncsutil.dll (src/bncsutil.dll) loaded and resolved OK; if not,
+' surfaces a visible error and disconnects instead of failing silently the
+' way an unhandled Declare-call stack corruption might have.
+Private Function OldAuthReady() As Boolean
+    If OldAuth.IsAvailable() Then
+        OldAuthReady = True
+    Else
+        AddChat Color.BotInfo, svrBNCS, Color.Bot, spID, Color.Error, _
+            "bncsutil.dll not found (or missing hashPassword/doubleHashPassword exports) - cannot compute the OLS password hash locally."
+        frmMain.Disconnect
+        OldAuthReady = False
+    End If
+End Function
+
+' Sends the OLS logon packet (SID_LOGONRESPONSE / SID_LOGONRESPONSE2) using a
+' password hash already computed locally via bncsutil (clsOldAuth). This is
+' exactly what modBNLS.bas's rcvBNLSHash used to do for HType=1 once BNLS
+' returned the double hash (its old cB=2/SPass=True branch, since removed
+' as dead code) - only where that hash came from has changed, not what
+' happens to it afterwards.
+Private Sub sndOldAuthLogon(pwHash As String)
+    If BNET.varDebugMode = 1 Then
+        Select Case BNET.Product
+            Case "RTSJ", "RHSS", "LTRD", "RHSD": cpID = "[C 0x29] "
+            Case Else: cpID = "[C 0x3A] "
+        End Select
+    End If
+    AddChat Color.BotInfo, svrBNCS, Color.Bot, cpID & "Attempting to log on..."
+    With sPB
+        .InsertDWORD ClientToken    ' (DWORD) Client Token
+        .InsertDWORD ServerToken    ' (DWORD) Server Token
+        .InsertNonNTString pwHash   ' (DWORD) [5] Password Hash (local bncsutil doubleHashPassword)
+        .InsertNTString BNET.username
+        Select Case BNET.Product
+            Case "RTSJ", "RHSS", "LTRD", "RHSD": .SendPacket &H29   ' SID_LOGONRESPONSE
+            Case Else: .SendPacket &H3A                             ' SID_LOGONRESPONSE2
+        End Select
+    End With
+End Sub
+
 '
 '
 ' Server to Client Sub Routines
@@ -157,6 +202,7 @@ End Sub
 ' SID_REPORTVERSION (0x07)
 Private Sub rcvReportVer()
 Dim errMsg As String
+Dim pwHash1 As String
     Select Case bncsPB.GetDWORD     ' (DWORD) Result
         Case &H0: errMsg = "Failed version check. (" & bncsPB.GetString & ")": GoTo Failed
         Case &H1: errMsg = "Old game version. (" & bncsPB.GetString & ")": GoTo Failed
@@ -175,12 +221,14 @@ Dim errMsg As String
                 If BNET.Product = "RTSJ" Then
                     sndCDKEY
                 Else
-                    HType = 1
-                    .InsertDWORD Len(BNET.password)
-                    .InsertDWORD &H0
-                    .InsertNonNTString BNET.password
-                    .SendBNLSPacket &HB
-                    SPass = True
+                    ' Was: single-hash BNLS_HASHDATA (HType=1) round trip, resolved
+                    ' via modBNLS.bas's rcvBNLSHash into the double hash below.
+                    ' Now computed locally so the plaintext password never leaves
+                    ' the client for this login path. See clsOldAuth.cls.
+                    If OldAuthReady() Then
+                        pwHash1 = OldAuth.DoubleHashPassword(BNET.password, ClientToken, ServerToken)
+                        sndOldAuthLogon pwHash1
+                    End If
                 End If
             End With
         Case &H3: errMsg = "Reinstall required. (" & bncsPB.GetString & ")": GoTo Failed
@@ -421,21 +469,20 @@ End Sub
 ' SID_CDKEY (0x30)
 Private Sub rcvCDKey()
 Dim Result As Long, keyOwner As String, errMsg As String
+Dim pwHash1 As String
     Result = bncsPB.GetDWORD    ' (DWORD) Result
     keyOwner = bncsPB.GetString ' (STRING) Key owner
     If Not keyOwner = "" Then keyOwner = " (" & keyOwner & ")"
     Select Case Result
         Case &H1
             AddChat Color.BotInfo, svrBNCS, Color.Bot, spID, Color.BotInfo, "CDKey Accepted!" & keyOwner
-            
-            With sPB
-                HType = 1
-                .InsertDWORD Len(BNET.password)
-                .InsertDWORD &H0
-                .InsertNonNTString BNET.password
-                .SendBNLSPacket &HB
-                SPass = True
-            End With
+
+            ' Was: single-hash BNLS_HASHDATA (HType=1) round trip; now computed
+            ' locally via bncsutil. See clsOldAuth.cls / OldAuthReady above.
+            If OldAuthReady() Then
+                pwHash1 = OldAuth.DoubleHashPassword(BNET.password, ClientToken, ServerToken)
+                sndOldAuthLogon pwHash1
+            End If
         Case &H2: errMsg = "Invalid CDKey." & keyOwner: GoTo Failed
         Case &H3: errMsg = "Bad Product." & keyOwner: GoTo Failed
         Case &H4: errMsg = "Banned CDKey." & keyOwner: GoTo Failed
@@ -472,6 +519,7 @@ End Sub
 ' SID_LOGONRESPONSE2 (0x3A)
 Private Sub rcvLogonResp2()
 Dim errMsg As String
+Dim pwHash1 As String
     Select Case bncsPB.GetDWORD
         Case &H0
             AddChat Color.BotInfo, svrBNCS, Color.Bot, spID, Color.BotInfo, "Logged on!"
@@ -481,13 +529,17 @@ Dim errMsg As String
             Call sndEntChat
         Case &H1
             AddChat Color.BotInfo, svrBNCS, Color.Bot, spID, Color.Carrot, "Account doesn't exist! Attempting to create..."
-            With sPB
-                HType = 2
-                .InsertDWORD Len(BNET.password)
-                .InsertDWORD &H0
-                .InsertNonNTString BNET.password
-                .SendBNLSPacket &HB
-            End With
+            ' Was: single-hash BNLS_HASHDATA (HType=2) round trip, resolved via
+            ' modBNLS.bas's rcvBNLSHash into SID_CREATEACCOUNT (0x2A) below; now
+            ' computed locally via bncsutil. See clsOldAuth.cls / OldAuthReady.
+            If OldAuthReady() Then
+                pwHash1 = OldAuth.HashPassword(BNET.password)
+                With sPB
+                    .InsertNonNTString pwHash1     ' (DWORD) [5] Password Hash
+                    .InsertNTString BNET.username
+                    .SendPacket &H2A                ' SID_CREATEACCOUNT
+                End With
+            End If
             frmMain.tmrIdle.Enabled = False
         Case &H2: errMsg = "Invalid password!": GoTo Failed
         Case &H6: errMsg = "Account Closed! - " & bncsPB.GetString: GoTo Failed
@@ -1238,7 +1290,6 @@ Public Sub sndLogRealmEx(Realm As String)
             .InsertNonNTString "password"  ' (VOID) Data to be hashed
             .SendBNLSPacket &HB
             .Clear
-            SPass = False
         End With
     End If
 End Sub
@@ -1349,6 +1400,7 @@ Dim numKeys As Long
 End Sub
 
 Private Sub sndContAuth()
+Dim pwHash1 As String
     With sPB
         If BNET.Product = "3RAW" Or BNET.Product = "PX3W" Then
             .InsertNTString BNET.username
@@ -1362,13 +1414,13 @@ Private Sub sndContAuth()
                 .InsertNonNTString "tenb"
             End If
             .SendPacket &H14
-             
-            HType = 1
-            .InsertDWORD Len(BNET.password)
-            .InsertDWORD &H0
-            .InsertNonNTString BNET.password
-            .SendBNLSPacket &HB
-            SPass = True
+
+            ' Was: single-hash BNLS_HASHDATA (HType=1) round trip; now computed
+            ' locally via bncsutil. See clsOldAuth.cls / OldAuthReady above.
+            If OldAuthReady() Then
+                pwHash1 = OldAuth.DoubleHashPassword(BNET.password, ClientToken, ServerToken)
+                sndOldAuthLogon pwHash1
+            End If
         End If
     End With
 End Sub

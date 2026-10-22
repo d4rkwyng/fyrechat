@@ -40,6 +40,8 @@ A Battle.net chat client developed from FyReBoT source. Emulates a Blizzard clie
 
 The old default logon server (`bnls.net`) is gone, so FyreChat needs a **BNLS server** to handle the version-check and CD-key hashing steps (this is what lets the bot connect without the games installed). Point it at the public one we host:
 
+(Broken SHA-1 password hashing for STAR/SEXP/D2DV/D2XP/W2BN-era logons is computed locally — see [NOTICE.md](NOTICE.md) — so the BNLS server never sees the account password for that step.)
+
 > **`bnls.openfyre.net`** &nbsp;—&nbsp; port **9367** &nbsp;(alias: `jbls.openfyre.net`)
 
 Another public option is `jbls.davnit.net`. To run your own, use [Davnit/JBLS](https://github.com/Davnit/JBLS) — the maintained source, which includes the CheckRevision 3a support that Diablo II needs.
@@ -51,7 +53,11 @@ Another public option is `jbls.davnit.net`. To run your own, use [Davnit/JBLS](h
 
 ## Features
 
-- **Connection** — BNLS-based authentication with Broken SHA-1 and NLSv2 logon support
+- **Connection** — Broken SHA-1 (OLS) and NLSv2 logon support. OLS password
+  hashing is computed locally via [bncsutil](https://github.com/BNETDocs/bncsutil)
+  (see [NOTICE.md](NOTICE.md)); a BNLS server is still used for the
+  version-check and CD-key hashing steps, and NLSv2 logon still uses BNLS
+  end-to-end.
 - **Icon Loading** — Spoof ping to display -1ms, 0ms, or UDP Plug icons
 - **Custom Idle Messages** — Variables for uptime, version, channel, and username
 - **Game Support** — Create & join StarCraft and Warcraft II games, manage Diablo II characters and realms
@@ -80,13 +86,14 @@ Releases are in the `dist/` directory:
 - Visual C++ 7 Runtimes (for plugins)
 - A valid Battle.net CDKey for the product you want to connect with
 
-Required runtime files are included in `assets/required_files.zip` and `assets/vc7_crt.zip`.
+Required runtime files are included in `assets/required_files.zip` and `assets/vc7_crt.zip`. `src/bncsutil.dll` (32-bit) must ship alongside `FyreChat.exe` for Broken SHA-1 (OLS) logons — see [NOTICE.md](NOTICE.md).
 
 ## Documentation
 
 - [Help & Commands](docs/HELP.md) — Installation, commands reference, idle variables
 - [Plugins](docs/PLUGINS.md) — Plugin list with compatibility notes
 - [Change Log](docs/CHANGELOG.md) — Full version history
+- [Third-Party Notices](NOTICE.md) — Bundled third-party binaries and licensing
 - [BotNet Protocol](docs/BotNetProtocol.txt) — Custom bot network protocol spec
 - [BNLS Protocol](docs/BNLSProtocolSpec.txt) — Battle.net Logon Server protocol spec
 
