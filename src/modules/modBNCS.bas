@@ -509,6 +509,7 @@ Dim errMsg As String
         Case &H2: errMsg = "Name contained invalid characters! (" & bncsPB.GetString & ")": GoTo Failed
         Case &H3: errMsg = "Name contained a banned word! (" & bncsPB.GetString & ")": GoTo Failed
         Case &H4: errMsg = "Account already exists!(" & bncsPB.GetString & ")": GoTo Failed
+        Case &H5: errMsg = "Account is still being created! (" & bncsPB.GetString & ")": GoTo Failed
         Case &H6: errMsg = "Name did not contain enough alphanumeric characters! (" & bncsPB.GetString & ")": GoTo Failed
         Case &H7: errMsg = "Name contained adjacent punctuation characters! (" & bncsPB.GetString & ")": GoTo Failed
         Case &H8: errMsg = "Name contained too many punctuation characters! (" & bncsPB.GetString & ")": GoTo Failed
@@ -687,6 +688,10 @@ Dim errMsg As String
         Case &H201: errMsg = "CDKey is in use. (" & bncsPB.GetString & ")": GoTo Failed
         Case &H203: errMsg = "Incorrect CD-Key for this product. (" & bncsPB.GetString & ")": GoTo Failed
         Case &H202: errMsg = "CDKey is banned. (" & bncsPB.GetString & ")": GoTo Failed
+        Case &H210: errMsg = "Expansion CDKey is invalid. (" & bncsPB.GetString & ")": GoTo Failed
+        Case &H211: errMsg = "Expansion CDKey is in use. (" & bncsPB.GetString & ")": GoTo Failed
+        Case &H212: errMsg = "Expansion CDKey is banned. (" & bncsPB.GetString & ")": GoTo Failed
+        Case &H213: errMsg = "Incorrect expansion CD-Key for this product. (" & bncsPB.GetString & ")": GoTo Failed
     End Select
     Exit Sub
 Failed:
@@ -737,9 +742,11 @@ Dim errMsg As String
                     .SendBNLSPacket &H4
                 End With
                 AttemptedC = True
+            Else
+                errMsg = "Account doesn't exist.": GoTo Failed
             End If
-        Case &H5: errMsg = "Account requires upgrade."
-        Case Else: errMsg = "Unknown (failure)."
+        Case &H5: errMsg = "Account requires upgrade.": GoTo Failed
+        Case Else: errMsg = "Unknown (failure).": GoTo Failed
     End Select
     Exit Sub
 Failed:
