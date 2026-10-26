@@ -27,6 +27,7 @@ Module=modBNCS; modules\modBNCS.bas
 Module=modMCP; modules\modMCP.bas
 Class=clsBuffer; class modules\clsBuffer.cls
 Class=clsSBuffer; class modules\clsSBuffer.cls
+Class=clsOldAuth; class modules\clsOldAuth.cls
 Form=forms\frmWebList.frm
 Form=forms\frmSTAR.frm
 Form=forms\frmD2DV.frm
