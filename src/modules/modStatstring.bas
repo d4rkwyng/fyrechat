@@ -103,6 +103,8 @@ On Local Error Resume Next
                         Case 2: strcpy outbuf, "icon: " & GetIconW3XP(Mid$(Values(1), 1, 1), Mid$(Values(1), 2, 1))
                         Case 3: strcpy outbuf, "icon: " & GetIconW3XP(Mid$(Values(1), 1, 1), Mid$(Values(1), 2, 1))
                         Case 4: strcpy outbuf, "icon: " & GetIconW3XP(Mid$(Values(1), 1, 1), Mid$(Values(1), 2, 1))
+                        Case 5: strcpy outbuf, "icon: " & GetIconW3XP(Mid$(Values(1), 1, 1), Mid$(Values(1), 2, 1))
+                        Case 6: strcpy outbuf, "icon: " & GetIconW3XP(Mid$(Values(1), 1, 1), Mid$(Values(1), 2, 1))
                         Case Else: strcpy outbuf, Mid$(Values(1), 1, 1)
                     End Select
 
@@ -399,7 +401,7 @@ On Local Error Resume Next
                 Case 3: GetIconW3XP = "Sorceress"
                 Case 4: GetIconW3XP = "Spellbreaker"
                 Case 5: GetIconW3XP = "Blood Mage"
-                Case 5: GetIconW3XP = "Jaina"
+                Case 6: GetIconW3XP = "Jaina"
                 Case Else: GetIconW3XP = "Unknown Human"
             End Select
         Case "O"
@@ -429,7 +431,7 @@ On Local Error Resume Next
                 Case 3: GetIconW3XP = "Banshee"
                 Case 4: GetIconW3XP = "Destroyer"
                 Case 5: GetIconW3XP = "Crypt Lord"
-                Case 5: GetIconW3XP = "Sylvanas"
+                Case 6: GetIconW3XP = "Sylvanas"
                 Case Else: GetIconW3XP = "Unknown Undead"
             End Select
         Case "R"
