@@ -231,9 +231,9 @@ Dim errMsg As String
         Case &H0
             AddChat Color.BotInfo, svrMCP, Color.Bot, spID, Color.BotInfo, "Logged on character."
             sPB.SendRPacket &H12 ' 0x00: Success
-        Case &H46: errMsg = "Player Not Found."
-        Case &H7A: errMsg = "Logon Failed."
-        Case &H7B: errMsg = "Character Expired."
+        Case &H46: errMsg = "Player Not Found.": GoTo Failed
+        Case &H7A: errMsg = "Logon Failed.": GoTo Failed
+        Case &H7B: errMsg = "Character Expired.": GoTo Failed
     End Select
     Exit Sub
 Failed:
