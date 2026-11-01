@@ -94,7 +94,7 @@ Private Sub rcvBNLSCDKey()
     Call sndAuthCheck
     Exit Sub
 Failed:
-    AddChat Color.BotInfo, svrBNLS, Color.Bot, spID, Color.Error, "Failed Version Check."
+    AddChat Color.BotInfo, svrBNLS, Color.Bot, spID, Color.Error, "BNLS could not encrypt your CD-Key. Check that it is valid."
     Call frmMain.Disconnect
 End Sub
 
@@ -325,7 +325,7 @@ Private Sub rcvBNLSChooseNLSRev()
             serverIP = ""
             
             For i = 0 To UBound(spltServer())
-                serverIP = Hex(spltServer(i)) & serverIP
+                serverIP = Right("0" & Hex(spltServer(i)), 2) & serverIP
             Next i
             
             With sPB
