@@ -331,7 +331,7 @@ End Sub
 ' MCP_CHARUPGRADE (0x18)
 Private Sub rcvCharUpgrade()
 Dim errMsg As String
-    Select Case mcpPB
+    Select Case mcpPB.GetDWORD ' (DWORD) Result
         Case &H0: AddChat Color.BotInfo, svrMCP, Color.Bot, spID, Color.BotInfo, "Successfully converted character!"
         Case &H46: errMsg = "Character Not Found.": GoTo Failed
         Case &H7A: errMsg = "Upgrade failed.": GoTo Failed

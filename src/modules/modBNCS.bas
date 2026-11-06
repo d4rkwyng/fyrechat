@@ -282,7 +282,7 @@ End Sub
 
 ' SID_CHECKAD (0x15)
 Private Sub rcvAd()
-Dim adId As Long, fileExt As Long, locFT As Long, FileName As String, linkURL As String
+Dim adId As Long, fileExt As Long, locFT As String, FileName As String, linkURL As String
     'Dim spltAd() As String: spltAd() = Split(Mid(d, 21), Chr(0), 3)
     'AddChat Color.BotInfo, svrBNCS & "Ad Banner ", Color.Bot, spID, Color.Message, spltAd(0) & " [url=" & spltAd(1) & "]"
     'Erase spltAd()
@@ -300,7 +300,11 @@ Private Sub rcvMsgBox()
     'AddChat Color.BotInfo, "[" & spltMsg(2) & "] ", Color.Message, spltMsg(1)
     'MsgBox spltMsg(1), vbOKOnly, spltMsg(2)
     'Erase spltMsg()
-    MsgBox bncsPB.GetString, vbOKOnly, bncsPB.GetString
+    Dim msgText As String, msgCaption As String
+    bncsPB.Skip 4                   ' (DWORD) Style
+    msgText = bncsPB.GetString      ' (STRING) Text
+    msgCaption = bncsPB.GetString   ' (STRING) Caption
+    MsgBox msgText, vbOKOnly, msgCaption
 End Sub
 
 ' SID_STARTADVEX3 (0x1C)
@@ -807,13 +811,13 @@ End Sub
 
 'SID_CLANINVITEMULTIPLE (0x71) NEEDS WORK
 Private Sub rcvClanInvMul()
-Dim Result As String, failAcc As String, errMsg As String
+Dim Result As Byte, failAcc As String, errMsg As String
     With bncsPB
         .Skip 4                     ' (DWORD) Cookie
         Result = .GetByte           ' (BYTE) Result
         failAcc = .GetString        ' (STRING) [] Failed account names
     End With
-    Select Case bncsPB.GetByte
+    Select Case Result
         Case &H0: AddChat Color.BotInfo, svrBNCS, Color.Bot, spID, Color.BotInfo, "Success!"
         Case &H4: errMsg = "Declined. (" & failAcc & ")": GoTo Failed
         Case &H5: errMsg = "Not available. (not in channel or already in a clan) (" & failAcc & ")": GoTo Failed
@@ -972,7 +976,7 @@ Dim numMembers As Long, i As Long
         ' (BYTE) Rank
         ' (BYTE) Online Status
         ' (STRING) Location
-        For i = 0 To numMembers
+        For i = 1 To numMembers
             AddChat Color.BotInfo, svrBNCS, Color.Bot, spID, Color.BotInfo, "User: ", Color.Message, .GetString, _
                 Color.BotInfo, ", Rank: ", Color.Message, .GetByte, Color.BotInfo, ", Status: ", Color.Message, .GetByte, _
                 Color.BotInfo, ", Location: ", Color.Message, .GetString
@@ -1022,7 +1026,7 @@ End Sub
 
 'SID_CLANMEMBERINFORMATION (0x82)
 Private Sub rcvClanMemInfo()
-Dim status As Long, clanName As String, rank As String, dateJoined As Long
+Dim status As Long, clanName As String, rank As String, dateJoined As String
     With bncsPB
         .Skip 4                     ' (DWORD) Cookie
         status = .GetByte           ' (BYTE) Status code
@@ -1033,7 +1037,7 @@ Dim status As Long, clanName As String, rank As String, dateJoined As Long
     Select Case status
         Case &H0
             AddChat Color.BotInfo, svrBNCS, Color.Bot, spID, Color.BotInfo, _
-                "User found! Clan Name: " & clanName & ", Rank: " & rank & ", Joined: " & DateAdd("s", dateJoined, #1/1/1970#)
+                "User found! Clan Name: " & clanName & ", Rank: " & rank & ", Joined: " & FileTimeStrToDate(dateJoined)
         Case &HC: AddChat Color.BotInfo, svrBNCS, Color.Bot, spID, Color.Error, "User not found in clan."
     End Select
 End Sub
@@ -1557,6 +1561,17 @@ Public Function sndStartAdvEx3(gName As String, gPass As String, gMap As String,
         .InsertNTString gMap & Chr(&HD)
         .SendPacket &H1C                                                            ' SID_STARTADVEX3
     End With
+End Function
+
+' Converts clsBuffer.GetFileTime's "high low" string (signed DWORDs) to a Date (UTC)
+Private Function FileTimeStrToDate(ByVal ft As String) As Date
+Dim parts() As String, hi As Double, lo As Double
+    parts = Split(ft, " ")
+    hi = CDbl(parts(0))
+    lo = CDbl(parts(1))
+    If lo < 0 Then lo = lo + 4294967296#
+    ' FILETIME = 100ns intervals since 1601-01-01; 864000000000 per day
+    FileTimeStrToDate = CDate(#1/1/1601# + (hi * 4294967296# + lo) / 864000000000#)
 End Function
 
 Private Function getRank(rank As Byte) As String
