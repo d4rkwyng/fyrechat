@@ -308,6 +308,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
+Private mcpBuffer As String ' Unparsed bytes from wsMCP (TCP stream may split/merge packets)
 
 Private Sub Form_Load()
     Me.icon = frmMain.icon
@@ -398,6 +399,7 @@ End Sub
 
 Private Sub wsMCP_Connect()
 On Local Error Resume Next
+    mcpBuffer = vbNullString
     wsMCP.SendData Chr(1)
     AddChat Color.BotInfo, "[MCP] Connected to MCP!"
     cmdConnect.Enabled = False
@@ -413,9 +415,17 @@ On Local Error Resume Next
 End Sub
 
 Private Sub wsMCP_DataArrival(ByVal bytesTotal As Long)
-Dim TempData As String
+Dim TempData As String, lngLen As Long
     wsMCP.GetData TempData, vbString
-    ParseMCP TempData
+    mcpBuffer = mcpBuffer & TempData
+    ' Each MCP message: (WORD) length incl. 3-byte header, (BYTE) ID
+    While Len(mcpBuffer) >= 3
+        lngLen = Asc(Mid$(mcpBuffer, 1, 1)) + Asc(Mid$(mcpBuffer, 2, 1)) * 256&
+        If lngLen < 3 Then mcpBuffer = vbNullString: Exit Sub
+        If Len(mcpBuffer) < lngLen Then Exit Sub
+        ParseMCP Left$(mcpBuffer, lngLen)
+        mcpBuffer = Mid$(mcpBuffer, lngLen + 1)
+    Wend
 End Sub
 
 Private Sub wsMCP_Close()

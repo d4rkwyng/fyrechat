@@ -575,6 +575,8 @@ Attribute Events.VB_VarHelpID = -1
 Private mclsToolTip         As New clsToolTip 'ToolTip
 Private Reg                 As clsRegistry    'Registry
 Private blDLHeader As Boolean
+Private bncsBuffer As String ' Unparsed bytes from wsBNET (TCP stream may split/merge packets)
+Private bnlsBuffer As String ' Unparsed bytes from wsBNLS
 Private DLfileSize As Long
 
 Private Sub Form_Load()
@@ -1424,6 +1426,7 @@ On Local Error Resume Next
 End Sub
 
 Private Sub wsBNET_Connect()
+    bncsBuffer = vbNullString
     AddChat Color.BotInfo, svrBNCS & "Connected to Battle.net!"
     LoadConVariables
     wsBNET.SendData Chr$(&H1)
@@ -1435,15 +1438,16 @@ Private Sub wsBNET_Connect()
 End Sub
 
 Private Sub wsBNET_DataArrival(ByVal bytesTotal As Long)
-Static strBuffer As String
 Dim strTemp As String, lngLen As Long
     wsBNET.GetData strTemp, vbString
-    strBuffer = strBuffer & strTemp
-    While Len(strBuffer) > 4
-        lngLen = Val("&H" & StrToHex(StrReverse(Mid(strBuffer, 3, 2))))
-        If Len(strBuffer) < lngLen Then: Exit Sub
-        ParseBNCS (Left(strBuffer, lngLen))
-        strBuffer = Mid(strBuffer, lngLen + 1)
+    bncsBuffer = bncsBuffer & strTemp
+    ' Each BNCS message: (BYTE) 0xFF, (BYTE) ID, (WORD) length incl. 4-byte header
+    While Len(bncsBuffer) >= 4
+        lngLen = Val("&H" & StrToHex(StrReverse(Mid(bncsBuffer, 3, 2))))
+        If lngLen < 4 Then bncsBuffer = vbNullString: Exit Sub
+        If Len(bncsBuffer) < lngLen Then: Exit Sub
+        ParseBNCS (Left(bncsBuffer, lngLen))
+        bncsBuffer = Mid(bncsBuffer, lngLen + 1)
     Wend
 End Sub
 
@@ -1460,6 +1464,7 @@ Private Sub wsBNET_Error(ByVal Number As Integer, Description As String, ByVal S
 End Sub
 
 Private Sub wsBNLS_Connect()
+    bnlsBuffer = vbNullString
     If InitialCon Then
         AddChat Color.BotInfo, svrBNLS & "Connected to BNLS!"
         
@@ -1481,9 +1486,17 @@ Private Sub wsBNLS_Connect()
 End Sub
 
 Private Sub wsBNLS_DataArrival(ByVal bytesTotal As Long)
-Dim TempData As String
+Dim TempData As String, lngLen As Long
     wsBNLS.GetData TempData, vbString
-    ParseBNLS TempData
+    bnlsBuffer = bnlsBuffer & TempData
+    ' Each BNLS message: (WORD) length incl. 3-byte header, (BYTE) ID
+    While Len(bnlsBuffer) >= 3
+        lngLen = Asc(Mid$(bnlsBuffer, 1, 1)) + Asc(Mid$(bnlsBuffer, 2, 1)) * 256&
+        If lngLen < 3 Then bnlsBuffer = vbNullString: Exit Sub
+        If Len(bnlsBuffer) < lngLen Then Exit Sub
+        ParseBNLS Left$(bnlsBuffer, lngLen)
+        bnlsBuffer = Mid$(bnlsBuffer, lngLen + 1)
+    Wend
 End Sub
 
 Private Sub wsBNLS_Error(ByVal Number As Integer, Description As String, ByVal Scode As Long, ByVal Source As String, ByVal HelpFile As String, ByVal HelpContext As Long, CancelDisplay As Boolean)
