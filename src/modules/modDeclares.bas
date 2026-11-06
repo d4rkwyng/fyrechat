@@ -55,7 +55,6 @@ Public VerByte As Long
 Public AuthTimeStamp As String
 Public ServerSignature As String
 
-Public SPass As Boolean
 Public CPass As Boolean
 Public AttemptedC As Boolean
 
